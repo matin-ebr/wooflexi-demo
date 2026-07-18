@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>Ultra Product Page Builder — دمو</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+html, body, #uppb-root { height: 100%; margin: 0; padding: 0; }
+#uppb-root * { box-sizing: border-box; }
+#uppb-root ::-webkit-scrollbar { width: 5px; height: 5px; }
+#uppb-root ::-webkit-scrollbar-track { background: transparent; }
+#uppb-root ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+#uppb-root ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+#uppb-root .preview-element { transition: all 0.15s ease; }
+#uppb-root .snap-x { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+#uppb-root .snap-start { scroll-snap-align: start; }
+#uppb-root input[type="range"] { cursor: pointer; }
+#uppb-root [data-rbd-drag-handle-draggable-id] { user-select: none; }
+#uppb-shell { height: 100vh; overflow: hidden; }
+#uppb-root { height: 100%; }
+#uppb-root .h-screen { height: 100% !important; }
+</style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.2.6",
+    "react/jsx-runtime": "https://esm.sh/react@19.2.6/jsx-runtime",
+    "react-dom": "https://esm.sh/react-dom@19.2.6?external=react",
+    "react-dom/client": "https://esm.sh/react-dom@19.2.6/client?external=react",
+    "zustand": "https://esm.sh/zustand@5.0.14?external=react",
+    "zustand/react/shallow": "https://esm.sh/zustand@5.0.14/react/shallow?external=react",
+    "clsx": "https://esm.sh/clsx@2.1.1",
+    "tailwind-merge": "https://esm.sh/tailwind-merge@3.4.0",
+    "@dnd-kit/core": "https://esm.sh/@dnd-kit/core@6.3.1?external=react,react-dom",
+    "@dnd-kit/sortable": "https://esm.sh/@dnd-kit/sortable@10.0.0?external=react,react-dom,@dnd-kit/core,@dnd-kit/utilities",
+    "@dnd-kit/utilities": "https://esm.sh/@dnd-kit/utilities@3.2.2?external=react"
+  }
+}
+</script>
+</head>
+<body>
+  <div class="wrap uppb-wrap">
+    <div id="uppb-shell">
+      <div id="uppb-root"></div>
+    </div>
+    <script type="module">// app/main.js
+import { jsx as _jsx10 } from "react/jsx-runtime";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+// app/App.js
+import { jsx as _jsx9, jsxs as _jsxs9 } from "react/jsx-runtime";
+import { useEffect as useEffect2, useCallback } from "react";
+import { useShallow as useShallow3 } from "zustand/react/shallow";
+
+// app/store.js
+import { create } from "zustand";
+
+// app/defaults.js
+var ELEMENT_LABELS = {
+  "breadcrumb": "\u0645\u0633\u06CC\u0631 \u0646\u0627\u0648\u0628\u0631\u06CC",
+  "gallery": "\u06AF\u0627\u0644\u0631\u06CC \u062A\u0635\u0627\u0648\u06CC\u0631",
+  "title": "\u0639\u0646\u0648\u0627\u0646 \u0645\u062D\u0635\u0648\u0644",
+  "price": "\u0642\u06CC\u0645\u062A",
+  "rating": "\u0627\u0645\u062A\u06CC\u0627\u0632 \u0648 \u0646\u0638\u0631\u0627\u062A",
+  "short-description": "\u062A\u0648\u0636\u06CC\u062D \u06A9\u0648\u062A\u0627\u0647",
+  "short-features": "\u0648\u06CC\u0698\u06AF\u06CC\u200C\u0647\u0627\u06CC \u06A9\u0648\u062A\u0627\u0647",
+  "variations": "\u062A\u0646\u0648\u0639\u200C\u0647\u0627 (\u0631\u0646\u06AF/\u0633\u0627\u06CC\u0632)",
+  "quantity": "\u062A\u0639\u062F\u0627\u062F",
+  "action-buttons": "\u062F\u06A9\u0645\u0647\u200C\u0647\u0627\u06CC \u0639\u0645\u0644\u06CC\u0627\u062A",
+  "stock": "\u0645\u0648\u062C\u0648\u062F\u06CC",
+  "countdown": "\u0634\u0645\u0627\u0631\u0634 \u0645\u0639\u06A9\u0648\u0633",
+  "shipping": "\u0627\u0631\u0633\u0627\u0644",
+  "trust-badges": "\u0646\u0634\u0627\u0646\u200C\u0647\u0627\u06CC \u0627\u0639\u062A\u0645\u0627\u062F",
+  "tabs": "\u062A\u0628\u200C\u0647\u0627\u06CC \u0627\u0637\u0644\u0627\u0639\u0627\u062A",
+  "reviews": "\u0646\u0638\u0631\u0627\u062A \u06A9\u0627\u0631\u0628\u0631\u0627\u0646",
+  "qa": "\u067E\u0631\u0633\u0634 \u0648 \u067E\u0627\u0633\u062E",
+  "specs-table": "\u062C\u062F\u0648\u0644 \u0645\u0634\u062E\u0635\u0627\u062A",
+  "bundle": "\u062E\u0631\u06CC\u062F \u0647\u0645\u0631\u0627\u0647",
+  "related-products": "\u0645\u062D\u0635\u0648\u0644\u0627\u062A \u0645\u0631\u062A\u0628\u0637",
+  "recently-viewed": "\u0627\u062E\u06CC\u0631\u0627\u064B \u0645\u0634\u0627\u0647\u062F\u0647\u200C\u0634\u062F\u0647",
+  "seo-info": "\u0627\u0637\u0644\u0627\u0639\u0627\u062A \u0633\u0626\u0648",
+  "social-share": "\u0627\u0634\u062A\u0631\u0627\u06A9\u200C\u06AF\u0630\u0627\u0631\u06CC",
+  "wishlist": "\u0644\u06CC\u0633\u062A \u0639\u0644\u0627\u0642\u0647\u200C\u0645\u0646\u062F\u06CC",
+  "compare": "\u0645\u0642\u0627\u06CC\u0633\u0647 \u0645\u062D\u0635\u0648\u0644\u0627\u062A",
+  "pro-features": "\u0627\u0645\u06A9\u0627\u0646\u0627\u062A \u062D\u0631\u0641\u0647\u200C\u0627\u06CC",
+  "store-policies": "\u0633\u06CC\u0627\u0633\u062A\u200C\u0647\u0627\u06CC \u0641\u0631\u0648\u0634\u06AF\u0627\u0647",
+  "sticky-bar": "\u0646\u0648\u0627\u0631 \u0686\u0633\u0628\u0627\u0646",
+  "promotional-banner": "\u0628\u0646\u0631 \u062A\u0628\u0644\u06CC\u063A\u0627\u062A\u06CC",
+  "sellers": "\u0641\u0631\u0648\u0634\u0646\u062F\u06AF\u0627\u0646",
+  "video-gallery": "\u06AF\u0627\u0644\u0631\u06CC \u0648\u06CC\u062F\u06CC\u0648"
+};
+var ELEMENT_CATEGORIES = {
+  "\u0627\u0637\u0644\u0627\u0639\u0627\u062A \u067E\u0627\u06CC\u0647": ["breadcrumb", "gallery", "video-gallery", "title", "price", "rating", "short-description"],
+  "\u0642\u06CC\u0645\u062A \u0648 \u062E\u0631\u06CC\u062F": ["variations", "short-features", "quantity", "action-buttons", "stock", "countdown", "wishlist", "compare", "sticky-bar"],
+  "\u0627\u0639\u062A\u0645\u0627\u062F\u0633\u0627\u0632\u06CC \u0648 \u0628\u0627\u0632\u0627\u0631\u06CC\u0627\u0628\u06CC": ["trust-badges", "shipping", "store-policies", "social-share", "promotional-banner", "bundle"],
+  "\u0645\u062D\u062A\u0648\u0627\u06CC \u0627\u0636\u0627\u0641\u06CC": ["tabs", "reviews", "qa", "specs-table", "related-products", "recently-viewed", "sellers"],
+  "\u0633\u0626\u0648 \u0648 \u062F\u0627\u062F\u0647\u200C\u0647\u0627\u06CC \u0641\u0646\u06CC": ["seo-info", "pro-features"]
+};
+var ELEMENT_ICONS = {
+  "breadcrumb": "\u{1F9ED}",
+  "gallery": "\u{1F5BC}\uFE0F",
+  "title": "\u{1F4DD}",
+  "price": "\u{1F4B0}",
+  "rating": "\u2B50",
+  "short-description": "\u{1F4C4}",
+  "short-features": "\u2705",
+  "variations": "\u{1F3A8}",
+  "quantity": "\u{1F522}",
+  "action-buttons": "\u{1F6D2}",
+  "stock": "\u{1F4E6}",
+  "countdown": "\u23F1\uFE0F",
+  "shipping": "\u{1F69A}",
+  "trust-badges": "\u{1F6E1}\uFE0F",
+  "tabs": "\u{1F4D1}",
+  "reviews": "\u{1F4AC}",
+  "qa": "\u2753",
+  "specs-table": "\u{1F4CA}",
+  "bundle": "\u{1F381}",
+  "related-products": "\u{1F517}",
+  "recently-viewed": "\u{1F441}\uFE0F",
+  "seo-info": "\u{1F50D}",
+  "social-share": "\u{1F4E4}",
+  "wishlist": "\u2764\uFE0F",
+  "compare": "\u2696\uFE0F",
+  "pro-features": "\u26A1",
+  "store-policies": "\u{1F4CB}",
+  "sticky-bar": "\u{1F4CC}",
+  "promotional-banner": "\u{1F3F7}\uFE0F",
+  "sellers": "\u{1F3EA}",
+  "video-gallery": "\u{1F3AC}"
+};
+var DEFAULT_STYLE = {
+  marginTop: 0,
+  marginBottom: 16,
+  paddingTop: 0,
+  paddingBottom: 0,
+  paddingLeft: 0,
+  paddingRight: 0,
+  borderRadius: 8,
+  borderWidth: 0,
+  borderColor: "#e2e8f0",
+  borderStyle: "none",
+  backgroundColor: "transparent",
+  backgroundType: "none",
+  gradientFrom: "#6366f1",
+  gradientTo: "#8b5cf6",
+  gradientDirection: "to-r",
+  boxShadow: "none",
+  fontSize: 14,
+  fontWeight: "normal",
+  textColor: "#1e293b",
+  textAlign: "right",
+  lineHeight: "normal",
+  letterSpacing: "normal",
+  hideOnMobile: false,
+  hideOnTablet: false,
+  hideOnDesktop: false,
+  opacity: 100,
+  animation: "none",
+  animationDelay: 0,
+  customCSS: ""
+};
+function getDefaultSettings(type) {
+  switch (type) {
+    case "tabs":
+      return { tabsLayout: "horizontal", activeTab: "description" };
+    case "bundle":
+      return { bundleLayout: "horizontal", bundleDiscount: 10, showBundleTotal: true };
+    case "related-products":
+      return { displayType: "grid", maxItems: 4 };
+    case "recently-viewed":
+      return { displayType: "slider", maxItems: 6 };
+    case "short-features":
+      return { layout: "horizontal", showIcons: true };
+    case "variations":
+      return { variationType: "button", showVariationLabel: true };
+    case "action-buttons":
+      return { hoverAnimation: "scale", showBuyNow: true, showWishlist: true, buttonStyle: "filled" };
+    case "breadcrumb":
+      return { separator: "/", separatorIcon: "chevron", showHome: true };
+    case "pro-features":
+      return { showQuickContact: true, showVirtualTryOn: false, showAiRecommend: true, showCustomOrder: false, showBranchStock: false };
+    case "seo-info":
+      return { showMetaTitle: true, showMetaDescription: true, metaDescriptionText: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u0645\u062A\u0627 \u0631\u0627 \u0627\u06CC\u0646\u062C\u0627 \u0648\u0627\u0631\u062F \u06A9\u0646\u06CC\u062F...", showSchema: true, showOpenGraph: true, showCanonical: true };
+    case "stock":
+      return { showLowStockWarning: true, lowStockThreshold: 5, showExactCount: true };
+    case "countdown":
+      return { showDays: true, showHours: true, showMinutes: true, showSeconds: true };
+    case "shipping":
+      return { showFreeShipping: true, showEstimated: true, showTracker: false };
+    case "social-share":
+      return { showFacebook: true, showTwitter: true, showWhatsapp: true, showTelegram: true, showCopyLink: true };
+    case "store-policies":
+      return { showReturn: true, showWarranty: true, showPayment: true };
+    case "gallery":
+      return { showThumbnails: true, thumbnailPosition: "bottom", enableZoom: true, enableLightbox: true };
+    case "rating":
+      return { showCount: true, showBreakdown: true };
+    case "sticky-bar":
+      return { showStickyPrice: true, showStickyCart: true, showStickyTitle: true };
+    case "promotional-banner":
+      return { bannerText: "\u0627\u0631\u0633\u0627\u0644 \u0631\u0627\u06CC\u06AF\u0627\u0646 \u0628\u0631\u0627\u06CC \u062E\u0631\u06CC\u062F \u0628\u0627\u0644\u0627\u06CC \u06F5\u06F0\u06F0 \u0647\u0632\u0627\u0631 \u062A\u0648\u0645\u0627\u0646!", showBannerIcon: true };
+    default:
+      return {};
+  }
+}
+var DEFAULT_ELEMENTS = [
+  "breadcrumb",
+  "gallery",
+  "title",
+  "price",
+  "rating",
+  "short-description",
+  "variations",
+  "quantity",
+  "action-buttons",
+  "stock",
+  "shipping",
+  "trust-badges",
+  "tabs"
+].map((type) => ({
+  id: `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+  type,
+  label: ELEMENT_LABELS[type],
+  visible: true,
+  settings: getDefaultSettings(type),
+  style: { ...DEFAULT_STYLE }
+}));
+var DEFAULT_GLOBAL_SETTINGS = {
+  direction: "rtl",
+  primaryColor: "#6366f1",
+  secondaryColor: "#f59e0b",
+  accentColor: "#10b981",
+  fontFamily: "default",
+  containerMaxWidth: 1200,
+  stickyPanel: true,
+  version: "2.0"
+};
+var TEMPLATES = [
+  {
+    id: "fashion",
+    name: "\u0642\u0627\u0644\u0628 \u067E\u0648\u0634\u0627\u06A9",
+    description: "\u0645\u0646\u0627\u0633\u0628 \u0628\u0631\u0627\u06CC \u0641\u0631\u0648\u0634\u06AF\u0627\u0647\u200C\u0647\u0627\u06CC \u0644\u0628\u0627\u0633 \u0648 \u0645\u062F",
+    icon: "\u{1F457}",
+    elements: ["breadcrumb", "gallery", "title", "price", "rating", "variations", "quantity", "action-buttons", "shipping", "trust-badges", "tabs", "related-products"],
+    globalSettings: { primaryColor: "#ec4899", secondaryColor: "#f9a8d4", accentColor: "#be185d" }
+  },
+  {
+    id: "electronics",
+    name: "\u0642\u0627\u0644\u0628 \u062F\u06CC\u062C\u06CC\u062A\u0627\u0644/\u0645\u0648\u0628\u0627\u06CC\u0644",
+    description: "\u0645\u0646\u0627\u0633\u0628 \u0628\u0631\u0627\u06CC \u0645\u062D\u0635\u0648\u0644\u0627\u062A \u0627\u0644\u06A9\u062A\u0631\u0648\u0646\u06CC\u06A9\u06CC",
+    icon: "\u{1F4F1}",
+    elements: ["breadcrumb", "gallery", "title", "price", "rating", "short-features", "variations", "action-buttons", "stock", "countdown", "shipping", "trust-badges", "specs-table", "tabs", "reviews", "related-products"],
+    globalSettings: { primaryColor: "#3b82f6", secondaryColor: "#93c5fd", accentColor: "#1d4ed8" }
+  },
+  {
+    id: "minimal",
+    name: "\u0642\u0627\u0644\u0628 \u0645\u06CC\u0646\u06CC\u0645\u0627\u0644",
+    description: "\u0637\u0631\u0627\u062D\u06CC \u0633\u0627\u062F\u0647 \u0648 \u062A\u0645\u06CC\u0632",
+    icon: "\u2B1C",
+    elements: ["breadcrumb", "gallery", "title", "price", "short-description", "action-buttons", "trust-badges"],
+    globalSettings: { primaryColor: "#1e293b", secondaryColor: "#64748b", accentColor: "#475569" }
+  },
+  {
+    id: "sale",
+    name: "\u0642\u0627\u0644\u0628 \u0641\u0631\u0648\u0634 \u0648\u06CC\u0698\u0647",
+    description: "\u0645\u0646\u0627\u0633\u0628 \u0628\u0631\u0627\u06CC \u062A\u062E\u0641\u06CC\u0641 \u0648 \u062D\u0631\u0627\u062C\u06CC",
+    icon: "\u{1F525}",
+    elements: ["breadcrumb", "promotional-banner", "gallery", "title", "price", "rating", "countdown", "short-features", "variations", "quantity", "action-buttons", "stock", "bundle", "shipping", "trust-badges", "tabs", "related-products"],
+    globalSettings: { primaryColor: "#ef4444", secondaryColor: "#fca5a5", accentColor: "#b91c1c" }
+  },
+  {
+    id: "full",
+    name: "\u0642\u0627\u0644\u0628 \u06A9\u0627\u0645\u0644",
+    description: "\u0647\u0645\u0647\u200C\u06CC \u0627\u0644\u0645\u0627\u0646\u200C\u0647\u0627",
+    icon: "\u{1F3C6}",
+    elements: [
+      "breadcrumb",
+      "promotional-banner",
+      "gallery",
+      "video-gallery",
+      "title",
+      "price",
+      "rating",
+      "short-description",
+      "short-features",
+      "variations",
+      "quantity",
+      "action-buttons",
+      "stock",
+      "countdown",
+      "shipping",
+      "trust-badges",
+      "social-share",
+      "wishlist",
+      "compare",
+      "bundle",
+      "store-policies",
+      "tabs",
+      "reviews",
+      "qa",
+      "specs-table",
+      "related-products",
+      "recently-viewed",
+      "sellers",
+      "seo-info",
+      "pro-features",
+      "sticky-bar"
+    ],
+    globalSettings: { primaryColor: "#6366f1", secondaryColor: "#f59e0b", accentColor: "#10b981" }
+  }
+];
+
+// app/store.js
+var STORAGE_KEY = "ultra_ppb_state";
+var MAX_HISTORY = 50;
+function cloneElements(elements) {
+  return JSON.parse(JSON.stringify(elements));
+}
+function generateId(type) {
+  return `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+function createInitialElements() {
+  return DEFAULT_ELEMENTS.map((el) => ({
+    ...el,
+    id: generateId(el.type)
+  }));
+}
+var useStore = create((set, get) => ({
+  elements: createInitialElements(),
+  globalSettings: { ...DEFAULT_GLOBAL_SETTINGS },
+  selectedElementId: null,
+  activePanel: "elements",
+  activeSettingsTab: "settings",
+  previewDevice: "desktop",
+  previewScenario: "default",
+  isDirty: false,
+  history: [],
+  historyIndex: -1,
+  searchQuery: "",
+  direction: "rtl",
+  // ── History helpers ──────────────────────────
+  _pushHistory: () => {
+    const state = get();
+    const entry = {
+      elements: cloneElements(state.elements),
+      globalSettings: { ...state.globalSettings },
+      timestamp: Date.now()
+    };
+    const newHistory = state.history.slice(0, state.historyIndex + 1);
+    newHistory.push(entry);
+    if (newHistory.length > MAX_HISTORY)
+      newHistory.shift();
+    set({ history: newHistory, historyIndex: newHistory.length - 1 });
+  },
+  undo: () => {
+    const { history, historyIndex } = get();
+    if (historyIndex <= 0)
+      return;
+    const idx = historyIndex - 1;
+    const entry = history[idx];
+    set({
+      elements: cloneElements(entry.elements),
+      globalSettings: { ...entry.globalSettings },
+      historyIndex: idx,
+      isDirty: true
+    });
+  },
+  redo: () => {
+    const { history, historyIndex } = get();
+    if (historyIndex >= history.length - 1)
+      return;
+    const idx = historyIndex + 1;
+    const entry = history[idx];
+    set({
+      elements: cloneElements(entry.elements),
+      globalSettings: { ...entry.globalSettings },
+      historyIndex: idx,
+      isDirty: true
+    });
+  },
+  // ── Element operations ───────────────────────
+  addElement: (type) => {
+    get()._pushHistory();
+    const newEl = {
+      id: generateId(type),
+      type,
+      label: ELEMENT_LABELS[type],
+      visible: true,
+      settings: getDefaultSettings(type),
+      style: { ...DEFAULT_STYLE }
+    };
+    set((state) => ({
+      elements: [...state.elements, newEl],
+      selectedElementId: newEl.id,
+      activePanel: "settings",
+      isDirty: true
+    }));
+  },
+  removeElement: (id) => {
+    get()._pushHistory();
+    set((state) => ({
+      elements: state.elements.filter((el) => el.id !== id),
+      selectedElementId: state.selectedElementId === id ? null : state.selectedElementId,
+      isDirty: true
+    }));
+  },
+  toggleVisibility: (id) => {
+    get()._pushHistory();
+    set((state) => ({
+      elements: state.elements.map((el) => el.id === id ? { ...el, visible: !el.visible } : el),
+      isDirty: true
+    }));
+  },
+  duplicateElement: (id) => {
+    get()._pushHistory();
+    const state = get();
+    const idx = state.elements.findIndex((el) => el.id === id);
+    if (idx === -1)
+      return;
+    const original = state.elements[idx];
+    const copy = {
+      ...JSON.parse(JSON.stringify(original)),
+      id: generateId(original.type),
+      label: original.label + " (\u06A9\u067E\u06CC)"
+    };
+    const newElements = [...state.elements];
+    newElements.splice(idx + 1, 0, copy);
+    set({ elements: newElements, selectedElementId: copy.id, isDirty: true });
+  },
+  moveElement: (id, direction) => {
+    get()._pushHistory();
+    const state = get();
+    const idx = state.elements.findIndex((el) => el.id === id);
+    if (idx === -1)
+      return;
+    const newElements = [...state.elements];
+    if (direction === "up" && idx > 0) {
+      [newElements[idx - 1], newElements[idx]] = [newElements[idx], newElements[idx - 1]];
+    } else if (direction === "down" && idx < newElements.length - 1) {
+      [newElements[idx], newElements[idx + 1]] = [newElements[idx + 1], newElements[idx]];
+    }
+    set({ elements: newElements, isDirty: true });
+  },
+  reorderElements: (fromIndex, toIndex) => {
+    get()._pushHistory();
+    const state = get();
+    const newElements = [...state.elements];
+    const [moved] = newElements.splice(fromIndex, 1);
+    newElements.splice(toIndex, 0, moved);
+    set({ elements: newElements, isDirty: true });
+  },
+  selectElement: (id) => {
+    set({ selectedElementId: id, activePanel: id ? "settings" : "elements" });
+  },
+  updateSettings: (id, settings) => {
+    get()._pushHistory();
+    set((state) => ({
+      elements: state.elements.map((el) => el.id === id ? { ...el, settings: { ...el.settings, ...settings } } : el),
+      isDirty: true
+    }));
+  },
+  updateStyle: (id, style) => {
+    get()._pushHistory();
+    set((state) => ({
+      elements: state.elements.map((el) => el.id === id ? { ...el, style: { ...el.style, ...style } } : el),
+      isDirty: true
+    }));
+  },
+  updateGlobalSettings: (settings) => {
+    get()._pushHistory();
+    set((state) => ({
+      globalSettings: { ...state.globalSettings, ...settings },
+      isDirty: true
+    }));
+  },
+  setActivePanel: (panel) => set({ activePanel: panel }),
+  setActiveSettingsTab: (tab) => set({ activeSettingsTab: tab }),
+  setPreviewDevice: (device) => set({ previewDevice: device }),
+  setPreviewScenario: (scenario) => set({ previewScenario: scenario }),
+  setSearchQuery: (q) => set({ searchQuery: q }),
+  resetToDefault: () => {
+    get()._pushHistory();
+    set({
+      elements: createInitialElements(),
+      globalSettings: { ...DEFAULT_GLOBAL_SETTINGS },
+      selectedElementId: null,
+      isDirty: false
+    });
+  },
+  applyTemplate: (templateId) => {
+    const template = TEMPLATES.find((t) => t.id === templateId);
+    if (!template)
+      return;
+    get()._pushHistory();
+    const elements = template.elements.map((type) => ({
+      id: generateId(type),
+      type,
+      label: ELEMENT_LABELS[type],
+      visible: true,
+      settings: getDefaultSettings(type),
+      style: { ...DEFAULT_STYLE }
+    }));
+    set({
+      elements,
+      globalSettings: { ...DEFAULT_GLOBAL_SETTINGS, ...template.globalSettings },
+      selectedElementId: null,
+      isDirty: true
+    });
+  },
+  saveToLocalStorage: () => {
+    const state = get();
+    const data = {
+      version: "2.0",
+      elements: state.elements,
+      globalSettings: state.globalSettings,
+      savedAt: (/* @__PURE__ */ new Date()).toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    set({ isDirty: false });
+  },
+  loadFromLocalStorage: () => {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw)
+      return;
+    try {
+      const data = JSON.parse(raw);
+      if (data.elements && data.globalSettings) {
+        get()._pushHistory();
+        set({
+          elements: data.elements,
+          globalSettings: data.globalSettings,
+          isDirty: false
+        });
+      }
+    } catch (e) {
+      console.error("Failed to load from localStorage", e);
+    }
+  },
+  exportJSON: () => {
+    const state = get();
+    const data = {
+      version: "2.0",
+      elements: state.elements,
+      globalSettings: state.globalSettings,
+      exportedAt: (/* @__PURE__ */ new Date()).toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `product-page-layout-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+  importJSON: (raw) => {
+    try {
+      const data = JSON.parse(raw);
+      if (data.elements && data.globalSettings) {
+        get()._pushHistory();
+        set({
+          elements: data.elements,
+          globalSettings: data.globalSettings,
+          isDirty: true
+        });
+      }
+    } catch (e) {
+      alert("\u0641\u0627\u06CC\u0644 JSON \u0646\u0627\u0645\u0639\u062A\u0628\u0631 \u0627\u0633\u062A");
+    }
+  }
+}));
+var autoSaveTimer;
+function startAutoSave() {
+  clearInterval(autoSaveTimer);
+  autoSaveTimer = setInterval(() => {
+    const state = useStore.getState();
+    if (state.isDirty) {
+      state.saveToLocalStorage();
+    }
+  }, 3e4);
+}
+
+// app/components/ElementsList.js
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from "react";
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+function SortableItem({ element, isSelected }) {
+  const removeElement = useStore((s) => s.removeElement);
+  const toggleVisibility = useStore((s) => s.toggleVisibility);
+  const duplicateElement = useStore((s) => s.duplicateElement);
+  const moveElement = useStore((s) => s.moveElement);
+  const selectElement = useStore((s) => s.selectElement);
+  const elements = useStore((s) => s.elements);
+  const idx = elements.findIndex((e) => e.id === element.id);
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: element.id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1
+  };
+  return _jsxs("div", { ref: setNodeRef, style, onClick: () => selectElement(element.id), className: `group flex items-center gap-2 rounded-xl border px-2 py-2 cursor-pointer transition-all mb-1
+        ${isSelected ? "border-indigo-400 bg-indigo-50 shadow-sm" : "border-slate-200 bg-white hover:border-indigo-200 hover:bg-slate-50"}
+        ${!element.visible ? "opacity-50" : ""}`, children: [_jsx("div", { ...attributes, ...listeners, className: "cursor-grab active:cursor-grabbing text-slate-300 hover:text-slate-500 px-0.5 flex-shrink-0", title: "\u062F\u0631\u06AF \u06A9\u0646\u06CC\u062F", children: "\u283F" }), _jsx("span", { className: "text-base flex-shrink-0", children: ELEMENT_ICONS[element.type] }), _jsx("span", { className: `flex-1 text-xs font-medium truncate ${isSelected ? "text-indigo-700" : "text-slate-700"}`, children: element.label }), _jsxs("div", { className: `flex items-center gap-0.5 flex-shrink-0 transition-opacity ${isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`, children: [_jsx("button", { onClick: (e) => {
+    e.stopPropagation();
+    moveElement(element.id, "up");
+  }, disabled: idx === 0, className: "w-6 h-6 flex items-center justify-center rounded text-slate-400 hover:text-slate-700 hover:bg-slate-200 disabled:opacity-20 disabled:cursor-not-allowed text-xs", title: "\u0627\u0646\u062A\u0642\u0627\u0644 \u0628\u0647 \u0628\u0627\u0644\u0627 (\u2191)", children: "\u2191" }), _jsx("button", { onClick: (e) => {
+    e.stopPropagation();
+    moveElement(element.id, "down");
+  }, disabled: idx === elements.length - 1, className: "w-6 h-6 flex items-center justify-center rounded text-slate-400 hover:text-slate-700 hover:bg-slate-200 disabled:opacity-20 disabled:cursor-not-allowed text-xs", title: "\u0627\u0646\u062A\u0642\u0627\u0644 \u0628\u0647 \u067E\u0627\u06CC\u06CC\u0646 (\u2193)", children: "\u2193" }), _jsx("button", { onClick: (e) => {
+    e.stopPropagation();
+    duplicateElement(element.id);
+  }, className: "w-6 h-6 flex items-center justify-center rounded text-slate-400 hover:text-blue-600 hover:bg-blue-50 text-xs", title: "\u062A\u06A9\u062B\u06CC\u0631 \u0627\u0644\u0645\u0627\u0646", "aria-label": "\u062A\u06A9\u062B\u06CC\u0631", children: "\u29C9" }), _jsx("button", { onClick: (e) => {
+    e.stopPropagation();
+    toggleVisibility(element.id);
+  }, className: "w-6 h-6 flex items-center justify-center rounded text-slate-400 hover:text-slate-700 hover:bg-slate-200 text-xs", title: element.visible ? "\u0645\u062E\u0641\u06CC \u06A9\u0631\u062F\u0646" : "\u0646\u0645\u0627\u06CC\u0634 \u062F\u0627\u062F\u0646", "aria-label": element.visible ? "\u0645\u062E\u0641\u06CC" : "\u0646\u0645\u0627\u06CC\u0634", children: element.visible ? "\u{1F441}" : "\u{1F648}" }), _jsx("button", { onClick: (e) => {
+    e.stopPropagation();
+    if (confirm(`\u062D\u0630\u0641 "${element.label}"?`))
+      removeElement(element.id);
+  }, className: "w-6 h-6 flex items-center justify-center rounded text-slate-400 hover:text-red-600 hover:bg-red-50 text-xs", title: "\u062D\u0630\u0641 \u0627\u0644\u0645\u0627\u0646", "aria-label": "\u062D\u0630\u0641", children: "\u{1F5D1}" })] })] });
+}
+function ElementsList() {
+  const elements = useStore((s) => s.elements);
+  const selectedElementId = useStore((s) => s.selectedElementId);
+  const reorderElements = useStore((s) => s.reorderElements);
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id)
+      return;
+    const fromIdx = elements.findIndex((e) => e.id === active.id);
+    const toIdx = elements.findIndex((e) => e.id === over.id);
+    if (fromIdx !== -1 && toIdx !== -1)
+      reorderElements(fromIdx, toIdx);
+  };
+  if (elements.length === 0) {
+    return _jsxs("div", { className: "text-center py-8 text-slate-400 text-sm", children: [_jsx("div", { className: "text-3xl mb-2", children: "\u{1F4ED}" }), "\u0647\u06CC\u0686 \u0627\u0644\u0645\u0627\u0646\u06CC \u0627\u0636\u0627\u0641\u0647 \u0646\u0634\u062F\u0647"] });
+  }
+  return _jsx(DndContext, { sensors, collisionDetection: closestCenter, onDragEnd: handleDragEnd, children: _jsx(SortableContext, { items: elements.map((e) => e.id), strategy: verticalListSortingStrategy, children: _jsx("div", { className: "space-y-0", children: elements.map((el) => _jsx(SortableItem, { element: el, isSelected: el.id === selectedElementId }, el.id)) }) }) });
+}
+function AddElementPanel() {
+  const addElement = useStore((s) => s.addElement);
+  const elements = useStore((s) => s.elements);
+  const searchQuery = useStore((s) => s.searchQuery);
+  const setSearchQuery = useStore((s) => s.setSearchQuery);
+  const [openCategories, setOpenCategories] = useState(new Set(Object.keys(ELEMENT_CATEGORIES)));
+  const toggleCategory = (cat) => {
+    setOpenCategories((prev) => {
+      const n = new Set(prev);
+      n.has(cat) ? n.delete(cat) : n.add(cat);
+      return n;
+    });
+  };
+  const existingTypes = new Set(elements.map((e) => e.type));
+  const filteredCategories = Object.entries(ELEMENT_CATEGORIES).map(([cat, types]) => ({
+    cat,
+    types: types.filter((t) => !searchQuery || ELEMENT_LABELS[t].toLowerCase().includes(searchQuery) || t.includes(searchQuery))
+  })).filter(({ types }) => types.length > 0);
+  return _jsxs("div", { children: [_jsxs("div", { className: "relative mb-3", children: [_jsx("span", { className: "absolute right-2.5 top-2 text-slate-400 text-sm", children: "\u{1F50D}" }), _jsx("input", { type: "text", value: searchQuery, onChange: (e) => setSearchQuery(e.target.value), placeholder: "\u062C\u0633\u062A\u200C\u0648\u062C\u0648 \u062F\u0631 \u0627\u0644\u0645\u0627\u0646\u200C\u0647\u0627...", className: "w-full border border-slate-200 rounded-xl pr-8 pl-3 py-2 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none bg-white" }), searchQuery && _jsx("button", { onClick: () => setSearchQuery(""), className: "absolute left-2 top-2 text-slate-400 hover:text-slate-600 text-sm", children: "\u2715" })] }), _jsx("div", { className: "space-y-2", children: filteredCategories.map(({ cat, types }) => _jsxs("div", { className: "border border-slate-200 rounded-xl overflow-hidden", children: [_jsxs("button", { onClick: () => toggleCategory(cat), className: "w-full flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-700 transition-colors", children: [_jsx("span", { children: cat }), _jsx("span", { className: "text-slate-400", children: openCategories.has(cat) ? "\u25B4" : "\u25BE" })] }), openCategories.has(cat) && _jsx("div", { className: "p-2 grid grid-cols-2 gap-1.5", children: types.map((type) => {
+    const alreadyAdded = existingTypes.has(type);
+    return _jsxs("button", { onClick: () => addElement(type), className: `flex items-center gap-1.5 rounded-lg px-2 py-2 text-xs text-left transition-all
+                        ${alreadyAdded ? "bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100" : "bg-white border border-slate-200 text-slate-700 hover:border-indigo-300 hover:bg-indigo-50"}`, children: [_jsx("span", { className: "text-base flex-shrink-0", children: ELEMENT_ICONS[type] }), _jsx("span", { className: "leading-tight", children: ELEMENT_LABELS[type] }), alreadyAdded && _jsx("span", { className: "mr-auto text-indigo-400 text-xs", children: "+" })] }, type);
+  }) })] }, cat)) })] });
+}
+
+// app/components/SettingsPanel.js
+import { jsx as _jsx2, jsxs as _jsxs2, Fragment as _Fragment } from "react/jsx-runtime";
+import React from "react";
+function Row({ label, children }) {
+  return _jsxs2("div", { className: "flex items-start justify-between gap-2 py-2 border-b border-slate-100 last:border-0", children: [_jsx2("label", { className: "text-xs text-slate-600 font-medium mt-1.5 flex-shrink-0 w-28", children: label }), _jsx2("div", { className: "flex-1", children })] });
+}
+function Toggle({ value, onChange }) {
+  return _jsx2("button", { onClick: () => onChange(!value), className: `relative w-10 h-5 rounded-full transition-colors ${value ? "bg-indigo-500" : "bg-slate-200"}`, children: _jsx2("span", { className: `absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${value ? "translate-x-5" : "translate-x-0.5"}` }) });
+}
+function Select({ value, onChange, options }) {
+  return _jsx2("select", { value, onChange: (e) => onChange(e.target.value), className: "w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none bg-white", children: options.map((o) => _jsx2("option", { value: o.value, children: o.label }, o.value)) });
+}
+function Slider({ value, onChange, min = 0, max = 100, step = 1 }) {
+  return _jsxs2("div", { className: "flex items-center gap-2", children: [_jsx2("input", { type: "range", min, max, step, value, onChange: (e) => onChange(Number(e.target.value)), className: "flex-1 h-1.5 accent-indigo-500" }), _jsx2("span", { className: "text-xs text-slate-500 w-8 text-left", children: value })] });
+}
+function TextInput({ value, onChange, placeholder }) {
+  return _jsx2("input", { type: "text", value, onChange: (e) => onChange(e.target.value), placeholder, className: "w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none" });
+}
+function TextArea({ value, onChange, placeholder }) {
+  return _jsx2("textarea", { value, onChange: (e) => onChange(e.target.value), placeholder, rows: 3, className: "w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none resize-none" });
+}
+function BreadcrumbSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u062E\u0627\u0646\u0647", children: _jsx2(Toggle, { value: settings.showHome ?? true, onChange: (v) => update({ showHome: v }) }) }), _jsx2(Row, { label: "\u062C\u062F\u0627\u06A9\u0646\u0646\u062F\u0647 \u0645\u062A\u0646\u06CC", children: _jsx2(TextInput, { value: settings.separator ?? "/", onChange: (v) => update({ separator: v }), placeholder: "\u0645\u062B\u0627\u0644: / \u06CC\u0627 |" }) }), _jsx2(Row, { label: "\u0622\u06CC\u06A9\u0648\u0646 \u062C\u062F\u0627\u06A9\u0646\u0646\u062F\u0647", children: _jsx2(Select, { value: settings.separatorIcon ?? "chevron", onChange: (v) => update({ separatorIcon: v }), options: [
+    { value: "chevron", label: "\u203A \u0686\u0650\u0648\u0631\u0648\u0646" },
+    { value: "arrow", label: "\u2192 \u0641\u0644\u0634" },
+    { value: "slash", label: "/ \u0627\u0633\u0644\u0634" },
+    { value: "dot", label: "\xB7 \u0646\u0642\u0637\u0647" },
+    { value: "custom", label: "\u0645\u062A\u0646\u06CC \u0633\u0641\u0627\u0631\u0634\u06CC" }
+  ] }) })] });
+}
+function GallerySettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0628\u0646\u062F \u0627\u0646\u06AF\u0634\u062A\u06CC", children: _jsx2(Toggle, { value: settings.showThumbnails ?? true, onChange: (v) => update({ showThumbnails: v }) }) }), _jsx2(Row, { label: "\u0645\u0648\u0642\u0639\u06CC\u062A \u0628\u0646\u062F\u0627\u0646\u06AF\u0634\u062A\u06CC", children: _jsx2(Select, { value: settings.thumbnailPosition ?? "bottom", onChange: (v) => update({ thumbnailPosition: v }), options: [
+    { value: "bottom", label: "\u067E\u0627\u06CC\u06CC\u0646" },
+    { value: "left", label: "\u0686\u067E" },
+    { value: "right", label: "\u0631\u0627\u0633\u062A" }
+  ] }) }), _jsx2(Row, { label: "\u0632\u0648\u0645 \u062A\u0635\u0648\u06CC\u0631", children: _jsx2(Toggle, { value: settings.enableZoom ?? true, onChange: (v) => update({ enableZoom: v }) }) }), _jsx2(Row, { label: "\u0644\u0627\u06CC\u062A\u200C\u0628\u0627\u06A9\u0633", children: _jsx2(Toggle, { value: settings.enableLightbox ?? true, onChange: (v) => update({ enableLightbox: v }) }) })] });
+}
+function RatingSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u062A\u0639\u062F\u0627\u062F \u0646\u0638\u0631\u0627\u062A", children: _jsx2(Toggle, { value: settings.showCount ?? true, onChange: (v) => update({ showCount: v }) }) }), _jsx2(Row, { label: "\u0646\u0645\u0648\u062F\u0627\u0631 \u0633\u062A\u0627\u0631\u0647\u200C\u0647\u0627", children: _jsx2(Toggle, { value: settings.showBreakdown ?? false, onChange: (v) => update({ showBreakdown: v }) }) })] });
+}
+function ShortFeaturesSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0686\u06CC\u062F\u0645\u0627\u0646", children: _jsx2(Select, { value: settings.layout ?? "horizontal", onChange: (v) => update({ layout: v }), options: [
+    { value: "horizontal", label: "\u0627\u0641\u0642\u06CC (\u06F3 \u0633\u062A\u0648\u0646)" },
+    { value: "grid", label: "\u0634\u0628\u06A9\u0647 \u06A9\u0627\u0631\u062A\u06CC (\u06F2 \u0633\u062A\u0648\u0646)" },
+    { value: "vertical", label: "\u0639\u0645\u0648\u062F\u06CC (\u06F1 \u0633\u062A\u0648\u0646)" }
+  ] }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0622\u06CC\u06A9\u0648\u0646", children: _jsx2(Toggle, { value: settings.showIcons ?? true, onChange: (v) => update({ showIcons: v }) }) })] });
+}
+function VariationsSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0648\u0639 \u0646\u0645\u0627\u06CC\u0634", children: _jsx2(Select, { value: settings.variationType ?? "button", onChange: (v) => update({ variationType: v }), options: [
+    { value: "button", label: "\u{1F532} \u062F\u06A9\u0645\u0647 (Button)" },
+    { value: "color", label: "\u{1F3A8} \u0631\u0646\u06AF (Color Swatch)" },
+    { value: "dropdown", label: "\u{1F4CB} \u0645\u0646\u0648\u06CC \u06A9\u0634\u0648\u06CC\u06CC" },
+    { value: "image", label: "\u{1F5BC}\uFE0F \u062A\u0635\u0648\u06CC\u0631 (Image Swatch)" }
+  ] }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0628\u0631\u0686\u0633\u0628", children: _jsx2(Toggle, { value: settings.showVariationLabel ?? true, onChange: (v) => update({ showVariationLabel: v }) }) })] });
+}
+function ActionButtonsSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0627\u0646\u06CC\u0645\u06CC\u0634\u0646 Hover", children: _jsx2(Select, { value: settings.hoverAnimation ?? "scale", onChange: (v) => update({ hoverAnimation: v }), options: [
+    { value: "none", label: "\u2014 \u0628\u062F\u0648\u0646 \u0627\u0646\u06CC\u0645\u06CC\u0634\u0646" },
+    { value: "scale", label: "\u{1F50D} \u0628\u0632\u0631\u06AF\u200C\u0634\u062F\u0646" },
+    { value: "lift", label: "\u2B06\uFE0F \u0628\u0627\u0644\u0627\u0631\u0641\u062A\u0646" },
+    { value: "glow", label: "\u2728 \u062F\u0631\u062E\u0634\u0634" },
+    { value: "pulse", label: "\u{1F493} \u0636\u0631\u0628\u0627\u0646" }
+  ] }) }), _jsx2(Row, { label: "\u0627\u0633\u062A\u0627\u06CC\u0644 \u062F\u06A9\u0645\u0647", children: _jsx2(Select, { value: settings.buttonStyle ?? "filled", onChange: (v) => update({ buttonStyle: v }), options: [
+    { value: "filled", label: "\u25A0 \u067E\u0631 (Filled)" },
+    { value: "outline", label: "\u25A1 \u06A9\u0627\u062F\u0631\u062F\u0627\u0631 (Outline)" },
+    { value: "ghost", label: "\u25FB \u0634\u0641\u0627\u0641 (Ghost)" }
+  ] }) }), _jsx2(Row, { label: "\u062F\u06A9\u0645\u0647 \u062E\u0631\u06CC\u062F \u0633\u0631\u06CC\u0639", children: _jsx2(Toggle, { value: settings.showBuyNow ?? true, onChange: (v) => update({ showBuyNow: v }) }) }), _jsx2(Row, { label: "\u062F\u06A9\u0645\u0647 \u0639\u0644\u0627\u0642\u0647\u200C\u0645\u0646\u062F\u06CC", children: _jsx2(Toggle, { value: settings.showWishlist ?? true, onChange: (v) => update({ showWishlist: v }) }) })] });
+}
+function StockSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0647\u0634\u062F\u0627\u0631 \u0645\u0648\u062C\u0648\u062F\u06CC \u06A9\u0645", children: _jsx2(Toggle, { value: settings.showLowStockWarning ?? true, onChange: (v) => update({ showLowStockWarning: v }) }) }), _jsx2(Row, { label: "\u0622\u0633\u062A\u0627\u0646\u0647 \u0645\u0648\u062C\u0648\u062F\u06CC \u06A9\u0645", children: _jsx2(Slider, { value: settings.lowStockThreshold ?? 5, onChange: (v) => update({ lowStockThreshold: v }), min: 1, max: 20 }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u062A\u0639\u062F\u0627\u062F \u062F\u0642\u06CC\u0642", children: _jsx2(Toggle, { value: settings.showExactCount ?? true, onChange: (v) => update({ showExactCount: v }) }) })] });
+}
+function CountdownSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0631\u0648\u0632", children: _jsx2(Toggle, { value: settings.showDays ?? true, onChange: (v) => update({ showDays: v }) }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0633\u0627\u0639\u062A", children: _jsx2(Toggle, { value: settings.showHours ?? true, onChange: (v) => update({ showHours: v }) }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u062F\u0642\u06CC\u0642\u0647", children: _jsx2(Toggle, { value: settings.showMinutes ?? true, onChange: (v) => update({ showMinutes: v }) }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u062B\u0627\u0646\u06CC\u0647", children: _jsx2(Toggle, { value: settings.showSeconds ?? true, onChange: (v) => update({ showSeconds: v }) }) })] });
+}
+function ShippingSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0627\u0631\u0633\u0627\u0644 \u0631\u0627\u06CC\u06AF\u0627\u0646", children: _jsx2(Toggle, { value: settings.showFreeShipping ?? true, onChange: (v) => update({ showFreeShipping: v }) }) }), _jsx2(Row, { label: "\u0632\u0645\u0627\u0646 \u062A\u062E\u0645\u06CC\u0646\u06CC", children: _jsx2(Toggle, { value: settings.showEstimated ?? true, onChange: (v) => update({ showEstimated: v }) }) }), _jsx2(Row, { label: "\u0631\u062F\u06CC\u0627\u0628 \u0645\u0631\u0633\u0648\u0644\u0647", children: _jsx2(Toggle, { value: settings.showTracker ?? false, onChange: (v) => update({ showTracker: v }) }) })] });
+}
+function TabsSettings({ settings, update }) {
+  return _jsx2(_Fragment, { children: _jsx2(Row, { label: "\u0686\u06CC\u062F\u0645\u0627\u0646 \u062A\u0628\u200C\u0647\u0627", children: _jsx2(Select, { value: settings.tabsLayout ?? "horizontal", onChange: (v) => update({ tabsLayout: v }), options: [
+    { value: "horizontal", label: "\u2B1B\u2B1B \u0627\u0641\u0642\u06CC" },
+    { value: "vertical", label: "\u2B1B\n\u2B1B \u0639\u0645\u0648\u062F\u06CC" },
+    { value: "accordion", label: "\u2295 \u0622\u06A9\u0627\u0631\u062F\u0626\u0648\u0646" }
+  ] }) }) });
+}
+function BundleSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0686\u06CC\u062F\u0645\u0627\u0646", children: _jsx2(Select, { value: settings.bundleLayout ?? "horizontal", onChange: (v) => update({ bundleLayout: v }), options: [
+    { value: "horizontal", label: "\u2194 \u0627\u0641\u0642\u06CC (\u06A9\u0627\u0631\u062A\u06CC)" },
+    { value: "vertical", label: "\u2195 \u0639\u0645\u0648\u062F\u06CC (\u0644\u06CC\u0633\u062A\u06CC)" }
+  ] }) }), _jsx2(Row, { label: "\u062F\u0631\u0635\u062F \u062A\u062E\u0641\u06CC\u0641", children: _jsx2(Slider, { value: settings.bundleDiscount ?? 10, onChange: (v) => update({ bundleDiscount: v }), min: 0, max: 50 }) }), _jsx2(Row, { label: "\u062C\u0645\u0639 \u06A9\u0644", children: _jsx2(Toggle, { value: settings.showBundleTotal ?? true, onChange: (v) => update({ showBundleTotal: v }) }) })] });
+}
+function RelatedSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0648\u0639 \u0646\u0645\u0627\u06CC\u0634", children: _jsx2(Select, { value: settings.displayType ?? "grid", onChange: (v) => update({ displayType: v }), options: [
+    { value: "grid", label: "\u229E \u0634\u0628\u06A9\u0647 (Grid)" },
+    { value: "slider", label: "\u25C1\u25B7 \u0627\u0633\u0644\u0627\u06CC\u062F\u0631" }
+  ] }) }), _jsx2(Row, { label: "\u062A\u0639\u062F\u0627\u062F \u0646\u0645\u0627\u06CC\u0634", children: _jsx2(Slider, { value: settings.maxItems ?? 4, onChange: (v) => update({ maxItems: v }), min: 2, max: 8 }) })] });
+}
+function RecentlyViewedSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0648\u0639 \u0646\u0645\u0627\u06CC\u0634", children: _jsx2(Select, { value: settings.displayType ?? "slider", onChange: (v) => update({ displayType: v }), options: [
+    { value: "slider", label: "\u25C1\u25B7 \u0627\u0633\u0644\u0627\u06CC\u062F\u0631" },
+    { value: "grid", label: "\u229E \u0634\u0628\u06A9\u0647 (Grid)" }
+  ] }) }), _jsx2(Row, { label: "\u062A\u0639\u062F\u0627\u062F \u0646\u0645\u0627\u06CC\u0634", children: _jsx2(Slider, { value: settings.maxItems ?? 6, onChange: (v) => update({ maxItems: v }), min: 2, max: 10 }) })] });
+}
+function SeoSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "Meta Title", children: _jsx2(Toggle, { value: settings.showMetaTitle ?? true, onChange: (v) => update({ showMetaTitle: v }) }) }), _jsx2(Row, { label: "Meta Description", children: _jsx2(Toggle, { value: settings.showMetaDescription ?? true, onChange: (v) => update({ showMetaDescription: v }) }) }), settings.showMetaDescription && _jsx2(Row, { label: "\u0645\u062A\u0646 \u062A\u0648\u0636\u06CC\u062D\u0627\u062A", children: _jsx2(TextArea, { value: settings.metaDescriptionText ?? "", onChange: (v) => update({ metaDescriptionText: v }), placeholder: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u0645\u062A\u0627 \u0631\u0627 \u0627\u06CC\u0646\u062C\u0627 \u0648\u0627\u0631\u062F \u06A9\u0646\u06CC\u062F..." }) }), _jsx2(Row, { label: "Schema.org", children: _jsx2(Toggle, { value: settings.showSchema ?? true, onChange: (v) => update({ showSchema: v }) }) }), _jsx2(Row, { label: "Open Graph", children: _jsx2(Toggle, { value: settings.showOpenGraph ?? true, onChange: (v) => update({ showOpenGraph: v }) }) }), _jsx2(Row, { label: "Canonical URL", children: _jsx2(Toggle, { value: settings.showCanonical ?? true, onChange: (v) => update({ showCanonical: v }) }) })] });
+}
+function SocialShareSettings({ settings, update }) {
+  return _jsx2(_Fragment, { children: [
+    { key: "showFacebook", label: "Facebook" },
+    { key: "showTwitter", label: "X/Twitter" },
+    { key: "showWhatsapp", label: "WhatsApp" },
+    { key: "showTelegram", label: "Telegram" },
+    { key: "showCopyLink", label: "\u06A9\u067E\u06CC \u0644\u06CC\u0646\u06A9" }
+  ].map(({ key, label }) => _jsx2(Row, { label, children: _jsx2(Toggle, { value: settings[key] ?? true, onChange: (v) => update({ [key]: v }) }) }, key)) });
+}
+function ProFeaturesSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u062A\u0645\u0627\u0633 \u0633\u0631\u06CC\u0639", children: _jsx2(Toggle, { value: settings.showQuickContact ?? true, onChange: (v) => update({ showQuickContact: v }) }) }), _jsx2(Row, { label: "\u067E\u0631\u0648 \u0648\u0627\u0642\u0639\u06CC\u062A \u0645\u062C\u0627\u0632\u06CC", children: _jsx2(Toggle, { value: settings.showVirtualTryOn ?? false, onChange: (v) => update({ showVirtualTryOn: v }) }) }), _jsx2(Row, { label: "\u067E\u06CC\u0634\u0646\u0647\u0627\u062F AI", children: _jsx2(Toggle, { value: settings.showAiRecommend ?? true, onChange: (v) => update({ showAiRecommend: v }) }) }), _jsx2(Row, { label: "\u0633\u0641\u0627\u0631\u0634 \u0633\u0641\u0627\u0631\u0634\u06CC", children: _jsx2(Toggle, { value: settings.showCustomOrder ?? false, onChange: (v) => update({ showCustomOrder: v }) }) }), _jsx2(Row, { label: "\u0645\u0648\u062C\u0648\u062F\u06CC \u0634\u0639\u0628\u0647\u200C\u0647\u0627", children: _jsx2(Toggle, { value: settings.showBranchStock ?? false, onChange: (v) => update({ showBranchStock: v }) }) })] });
+}
+function StorePoliciesSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0628\u0627\u0632\u06AF\u0634\u062A \u06A9\u0627\u0644\u0627", children: _jsx2(Toggle, { value: settings.showReturn ?? true, onChange: (v) => update({ showReturn: v }) }) }), _jsx2(Row, { label: "\u06AF\u0627\u0631\u0627\u0646\u062A\u06CC", children: _jsx2(Toggle, { value: settings.showWarranty ?? true, onChange: (v) => update({ showWarranty: v }) }) }), _jsx2(Row, { label: "\u0631\u0648\u0634\u200C\u0647\u0627\u06CC \u067E\u0631\u062F\u0627\u062E\u062A", children: _jsx2(Toggle, { value: settings.showPayment ?? true, onChange: (v) => update({ showPayment: v }) }) })] });
+}
+function StickyBarSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0639\u0646\u0648\u0627\u0646", children: _jsx2(Toggle, { value: settings.showStickyTitle ?? true, onChange: (v) => update({ showStickyTitle: v }) }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0642\u06CC\u0645\u062A", children: _jsx2(Toggle, { value: settings.showStickyPrice ?? true, onChange: (v) => update({ showStickyPrice: v }) }) }), _jsx2(Row, { label: "\u062F\u06A9\u0645\u0647 \u0633\u0628\u062F \u062E\u0631\u06CC\u062F", children: _jsx2(Toggle, { value: settings.showStickyCart ?? true, onChange: (v) => update({ showStickyCart: v }) }) })] });
+}
+function PromotionalBannerSettings({ settings, update }) {
+  return _jsxs2(_Fragment, { children: [_jsx2(Row, { label: "\u0645\u062A\u0646 \u0628\u0646\u0631", children: _jsx2(TextInput, { value: settings.bannerText ?? "", onChange: (v) => update({ bannerText: v }), placeholder: "\u0645\u062A\u0646 \u0628\u0646\u0631 \u062A\u0628\u0644\u06CC\u063A\u0627\u062A\u06CC" }) }), _jsx2(Row, { label: "\u0644\u06CC\u0646\u06A9 \u0628\u0646\u0631", children: _jsx2(TextInput, { value: settings.bannerLink ?? "", onChange: (v) => update({ bannerLink: v }), placeholder: "https://..." }) }), _jsx2(Row, { label: "\u0646\u0645\u0627\u06CC\u0634 \u0622\u06CC\u06A9\u0648\u0646", children: _jsx2(Toggle, { value: settings.showBannerIcon ?? true, onChange: (v) => update({ showBannerIcon: v }) }) })] });
+}
+function ConditionalVisibilitySection({ settings, update }) {
+  const cv = settings.conditionalVisibility ?? { enabled: false, condition: "always" };
+  const updateCv = (patch) => update({ conditionalVisibility: { ...cv, ...patch } });
+  return _jsxs2("div", { className: "mt-3 pt-3 border-t border-slate-200", children: [_jsx2("div", { className: "text-xs font-bold text-slate-700 mb-2", children: "\u{1F441}\uFE0F \u0646\u0645\u0627\u06CC\u0634 \u0634\u0631\u0637\u06CC" }), _jsx2(Row, { label: "\u0641\u0639\u0627\u0644\u200C\u0633\u0627\u0632\u06CC", children: _jsx2(Toggle, { value: cv.enabled, onChange: (v) => updateCv({ enabled: v }) }) }), cv.enabled && _jsx2(Row, { label: "\u0634\u0631\u0637 \u0646\u0645\u0627\u06CC\u0634", children: _jsx2(Select, { value: cv.condition, onChange: (v) => updateCv({ condition: v }), options: [
+    { value: "always", label: "\u0647\u0645\u06CC\u0634\u0647 \u0646\u0645\u0627\u06CC\u0634" },
+    { value: "has-discount", label: "\u0641\u0642\u0637 \u0628\u0627 \u062A\u062E\u0641\u06CC\u0641" },
+    { value: "out-of-stock", label: "\u0641\u0642\u0637 \u0646\u0627\u0645\u0648\u062C\u0648\u062F" },
+    { value: "low-stock", label: "\u0641\u0642\u0637 \u0645\u0648\u062C\u0648\u062F\u06CC \u06A9\u0645" },
+    { value: "specific-category", label: "\u062F\u0633\u062A\u0647\u200C\u0628\u0646\u062F\u06CC \u062E\u0627\u0635" }
+  ] }) })] });
+}
+function CustomCSSSection({ settings, update }) {
+  return _jsxs2("div", { className: "mt-3 pt-3 border-t border-slate-200", children: [_jsx2("div", { className: "text-xs font-bold text-slate-700 mb-2", children: "\u{1F3A8} CSS \u0633\u0641\u0627\u0631\u0634\u06CC" }), _jsx2(Row, { label: "\u06A9\u0644\u0627\u0633 CSS", children: _jsx2(TextInput, { value: settings.customClass ?? "", onChange: (v) => update({ customClass: v }), placeholder: "my-class another-class" }) }), _jsx2(Row, { label: "ID \u0627\u0644\u0645\u0627\u0646", children: _jsx2(TextInput, { value: settings.customId ?? "", onChange: (v) => update({ customId: v }), placeholder: "my-element-id" }) })] });
+}
+function SettingsPanel({ element }) {
+  const updateSettings = useStore((s) => s.updateSettings);
+  const update = (patch) => updateSettings(element.id, patch);
+  const renderSpecific = () => {
+    const p = { settings: element.settings, update };
+    switch (element.type) {
+      case "breadcrumb":
+        return _jsx2(BreadcrumbSettings, { ...p });
+      case "gallery":
+        return _jsx2(GallerySettings, { ...p });
+      case "rating":
+        return _jsx2(RatingSettings, { ...p });
+      case "short-features":
+        return _jsx2(ShortFeaturesSettings, { ...p });
+      case "variations":
+        return _jsx2(VariationsSettings, { ...p });
+      case "action-buttons":
+        return _jsx2(ActionButtonsSettings, { ...p });
+      case "stock":
+        return _jsx2(StockSettings, { ...p });
+      case "countdown":
+        return _jsx2(CountdownSettings, { ...p });
+      case "shipping":
+        return _jsx2(ShippingSettings, { ...p });
+      case "tabs":
+        return _jsx2(TabsSettings, { ...p });
+      case "bundle":
+        return _jsx2(BundleSettings, { ...p });
+      case "related-products":
+        return _jsx2(RelatedSettings, { ...p });
+      case "recently-viewed":
+        return _jsx2(RecentlyViewedSettings, { ...p });
+      case "seo-info":
+        return _jsx2(SeoSettings, { ...p });
+      case "social-share":
+        return _jsx2(SocialShareSettings, { ...p });
+      case "pro-features":
+        return _jsx2(ProFeaturesSettings, { ...p });
+      case "store-policies":
+        return _jsx2(StorePoliciesSettings, { ...p });
+      case "sticky-bar":
+        return _jsx2(StickyBarSettings, { ...p });
+      case "promotional-banner":
+        return _jsx2(PromotionalBannerSettings, { ...p });
+      default:
+        return _jsx2("div", { className: "text-xs text-slate-400 text-center py-4", children: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A \u062E\u0627\u0635\u06CC \u0628\u0631\u0627\u06CC \u0627\u06CC\u0646 \u0627\u0644\u0645\u0627\u0646 \u0648\u062C\u0648\u062F \u0646\u062F\u0627\u0631\u062F." });
+    }
+  };
+  return _jsxs2("div", { className: "space-y-0", children: [renderSpecific(), _jsx2(ConditionalVisibilitySection, { settings: element.settings, update }), _jsx2(CustomCSSSection, { settings: element.settings, update })] });
+}
+
+// app/components/StylePanel.js
+import { jsx as _jsx3, jsxs as _jsxs3, Fragment as _Fragment2 } from "react/jsx-runtime";
+import React2 from "react";
+function Row2({ label, children }) {
+  return _jsxs3("div", { className: "flex items-start justify-between gap-2 py-2 border-b border-slate-100 last:border-0", children: [_jsx3("label", { className: "text-xs text-slate-600 font-medium mt-1.5 flex-shrink-0 w-28", children: label }), _jsx3("div", { className: "flex-1", children })] });
+}
+function Slider2({ value, onChange, min = 0, max = 100, step = 1 }) {
+  return _jsxs3("div", { className: "flex items-center gap-2", children: [_jsx3("input", { type: "range", min, max, step, value, onChange: (e) => onChange(Number(e.target.value)), className: "flex-1 h-1.5 accent-indigo-500" }), _jsx3("span", { className: "text-xs text-slate-500 w-8 text-left", children: value })] });
+}
+function Select2({ value, onChange, options }) {
+  return _jsx3("select", { value, onChange: (e) => onChange(e.target.value), className: "w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none bg-white", children: options.map((o) => _jsx3("option", { value: o.value, children: o.label }, o.value)) });
+}
+function Toggle2({ value, onChange }) {
+  return _jsx3("button", { onClick: () => onChange(!value), className: `relative w-10 h-5 rounded-full transition-colors ${value ? "bg-indigo-500" : "bg-slate-200"}`, children: _jsx3("span", { className: `absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${value ? "translate-x-5" : "translate-x-0.5"}` }) });
+}
+function ColorInput({ value, onChange }) {
+  return _jsxs3("div", { className: "flex items-center gap-2", children: [_jsx3("input", { type: "color", value, onChange: (e) => onChange(e.target.value), className: "w-8 h-8 rounded cursor-pointer border border-slate-200" }), _jsx3("input", { type: "text", value, onChange: (e) => onChange(e.target.value), className: "flex-1 border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none font-mono" })] });
+}
+function SectionTitle({ children }) {
+  return _jsx3("div", { className: "text-xs font-bold text-slate-500 uppercase tracking-wider mt-4 mb-1 pb-1 border-b border-slate-100", children });
+}
+var STYLE_PRESETS = [
+  {
+    name: "\u0633\u0627\u062F\u0647",
+    icon: "\u2B1C",
+    style: { backgroundType: "none", borderStyle: "none", boxShadow: "none", borderRadius: 8 }
+  },
+  {
+    name: "\u06A9\u0627\u0631\u062A\u06CC",
+    icon: "\u{1F0CF}",
+    style: { backgroundType: "solid", backgroundColor: "#ffffff", borderStyle: "solid", borderWidth: 1, borderColor: "#e2e8f0", boxShadow: "md", borderRadius: 12 }
+  },
+  {
+    name: "\u0633\u0627\u06CC\u0647\u200C\u062F\u0627\u0631",
+    icon: "\u{1F311}",
+    style: { backgroundType: "solid", backgroundColor: "#ffffff", borderStyle: "none", boxShadow: "lg", borderRadius: 16 }
+  },
+  {
+    name: "\u06AF\u0631\u0627\u062F\u06CC\u0627\u0646\u062A",
+    icon: "\u{1F308}",
+    style: { backgroundType: "gradient", gradientFrom: "#6366f1", gradientTo: "#8b5cf6", gradientDirection: "to-r", textColor: "#ffffff", borderRadius: 12, boxShadow: "md" }
+  }
+];
+function StylePanel({ element }) {
+  const updateStyle = useStore((s2) => s2.updateStyle);
+  const s = element.style;
+  const upd = (patch) => updateStyle(element.id, patch);
+  return _jsxs3("div", { children: [_jsx3(SectionTitle, { children: "\u0627\u0633\u06A9\u06CC\u0646 \u0622\u0645\u0627\u062F\u0647 (Quick Presets)" }), _jsx3("div", { className: "grid grid-cols-4 gap-1.5 mb-2", children: STYLE_PRESETS.map((p) => _jsxs3("button", { onClick: () => upd(p.style), className: "flex flex-col items-center gap-0.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 rounded-lg p-2 transition-all text-center", children: [_jsx3("span", { className: "text-lg", children: p.icon }), _jsx3("span", { className: "text-xs text-slate-600", children: p.name })] }, p.name)) }), _jsx3(SectionTitle, { children: "\u0641\u0627\u0635\u0644\u0647\u200C\u06AF\u0630\u0627\u0631\u06CC" }), _jsx3(Row2, { label: "\u062D\u0627\u0634\u06CC\u0647 \u0628\u0627\u0644\u0627 (Margin)", children: _jsx3(Slider2, { value: s.marginTop ?? 0, onChange: (v) => upd({ marginTop: v }), min: 0, max: 80 }) }), _jsx3(Row2, { label: "\u062D\u0627\u0634\u06CC\u0647 \u067E\u0627\u06CC\u06CC\u0646", children: _jsx3(Slider2, { value: s.marginBottom ?? 16, onChange: (v) => upd({ marginBottom: v }), min: 0, max: 80 }) }), _jsx3(Row2, { label: "\u067E\u062F\u06CC\u0646\u06AF \u0628\u0627\u0644\u0627", children: _jsx3(Slider2, { value: s.paddingTop ?? 0, onChange: (v) => upd({ paddingTop: v }), min: 0, max: 64 }) }), _jsx3(Row2, { label: "\u067E\u062F\u06CC\u0646\u06AF \u067E\u0627\u06CC\u06CC\u0646", children: _jsx3(Slider2, { value: s.paddingBottom ?? 0, onChange: (v) => upd({ paddingBottom: v }), min: 0, max: 64 }) }), _jsx3(Row2, { label: "\u067E\u062F\u06CC\u0646\u06AF \u0686\u067E", children: _jsx3(Slider2, { value: s.paddingLeft ?? 0, onChange: (v) => upd({ paddingLeft: v }), min: 0, max: 64 }) }), _jsx3(Row2, { label: "\u067E\u062F\u06CC\u0646\u06AF \u0631\u0627\u0633\u062A", children: _jsx3(Slider2, { value: s.paddingRight ?? 0, onChange: (v) => upd({ paddingRight: v }), min: 0, max: 64 }) }), _jsx3(SectionTitle, { children: "\u067E\u0633\u200C\u0632\u0645\u06CC\u0646\u0647" }), _jsx3(Row2, { label: "\u0646\u0648\u0639 \u067E\u0633\u200C\u0632\u0645\u06CC\u0646\u0647", children: _jsx3(Select2, { value: s.backgroundType ?? "none", onChange: (v) => upd({ backgroundType: v }), options: [
+    { value: "none", label: "\u0634\u0641\u0627\u0641" },
+    { value: "solid", label: "\u0631\u0646\u06AF \u06CC\u06A9\u0646\u0648\u0627\u062E\u062A" },
+    { value: "gradient", label: "\u06AF\u0631\u0627\u062F\u06CC\u0627\u0646\u062A" }
+  ] }) }), s.backgroundType === "solid" && _jsx3(Row2, { label: "\u0631\u0646\u06AF \u067E\u0633\u200C\u0632\u0645\u06CC\u0646\u0647", children: _jsx3(ColorInput, { value: s.backgroundColor ?? "#ffffff", onChange: (v) => upd({ backgroundColor: v }) }) }), s.backgroundType === "gradient" && _jsxs3(_Fragment2, { children: [_jsx3(Row2, { label: "\u0631\u0646\u06AF \u0627\u0648\u0644", children: _jsx3(ColorInput, { value: s.gradientFrom ?? "#6366f1", onChange: (v) => upd({ gradientFrom: v }) }) }), _jsx3(Row2, { label: "\u0631\u0646\u06AF \u062F\u0648\u0645", children: _jsx3(ColorInput, { value: s.gradientTo ?? "#8b5cf6", onChange: (v) => upd({ gradientTo: v }) }) }), _jsx3(Row2, { label: "\u062C\u0647\u062A \u06AF\u0631\u0627\u062F\u06CC\u0627\u0646\u062A", children: _jsx3(Select2, { value: s.gradientDirection ?? "to-r", onChange: (v) => upd({ gradientDirection: v }), options: [
+    { value: "to-r", label: "\u2190 \u2192 \u0627\u0641\u0642\u06CC" },
+    { value: "to-br", label: "\u2198 \u0645\u0648\u0631\u0628 \u0631\u0627\u0633\u062A" },
+    { value: "to-b", label: "\u2193 \u0639\u0645\u0648\u062F\u06CC" },
+    { value: "to-bl", label: "\u2199 \u0645\u0648\u0631\u0628 \u0686\u067E" }
+  ] }) })] }), _jsx3(SectionTitle, { children: "\u06A9\u0627\u062F\u0631" }), _jsx3(Row2, { label: "\u0627\u0633\u062A\u0627\u06CC\u0644 \u06A9\u0627\u062F\u0631", children: _jsx3(Select2, { value: s.borderStyle ?? "none", onChange: (v) => upd({ borderStyle: v }), options: [
+    { value: "none", label: "\u0628\u062F\u0648\u0646 \u06A9\u0627\u062F\u0631" },
+    { value: "solid", label: "\u06CC\u06A9\u0646\u0648\u0627\u062E\u062A" },
+    { value: "dashed", label: "\u062E\u0637\u200C\u0686\u06CC\u0646" },
+    { value: "dotted", label: "\u0646\u0642\u0637\u0647\u200C\u0686\u06CC\u0646" }
+  ] }) }), s.borderStyle !== "none" && _jsxs3(_Fragment2, { children: [_jsx3(Row2, { label: "\u0636\u062E\u0627\u0645\u062A \u06A9\u0627\u062F\u0631", children: _jsx3(Slider2, { value: s.borderWidth ?? 1, onChange: (v) => upd({ borderWidth: v }), min: 1, max: 8 }) }), _jsx3(Row2, { label: "\u0631\u0646\u06AF \u06A9\u0627\u062F\u0631", children: _jsx3(ColorInput, { value: s.borderColor ?? "#e2e8f0", onChange: (v) => upd({ borderColor: v }) }) })] }), _jsx3(Row2, { label: "\u06AF\u0648\u0634\u0647 \u06AF\u0631\u062F", children: _jsx3(Slider2, { value: s.borderRadius ?? 8, onChange: (v) => upd({ borderRadius: v }), min: 0, max: 48 }) }), _jsx3(SectionTitle, { children: "\u0633\u0627\u06CC\u0647" }), _jsx3(Row2, { label: "\u0633\u0627\u06CC\u0647 \u062C\u0639\u0628\u0647", children: _jsx3(Select2, { value: s.boxShadow ?? "none", onChange: (v) => upd({ boxShadow: v }), options: [
+    { value: "none", label: "\u0628\u062F\u0648\u0646 \u0633\u0627\u06CC\u0647" },
+    { value: "sm", label: "\u06A9\u0648\u0686\u06A9" },
+    { value: "md", label: "\u0645\u062A\u0648\u0633\u0637" },
+    { value: "lg", label: "\u0628\u0632\u0631\u06AF" },
+    { value: "xl", label: "\u062E\u06CC\u0644\u06CC \u0628\u0632\u0631\u06AF" }
+  ] }) }), _jsx3(SectionTitle, { children: "\u062A\u0627\u06CC\u067E\u0648\u06AF\u0631\u0627\u0641\u06CC" }), _jsx3(Row2, { label: "\u0627\u0646\u062F\u0627\u0632\u0647 \u0641\u0648\u0646\u062A", children: _jsx3(Slider2, { value: s.fontSize ?? 14, onChange: (v) => upd({ fontSize: v }), min: 10, max: 32 }) }), _jsx3(Row2, { label: "\u0648\u0632\u0646 \u0641\u0648\u0646\u062A", children: _jsx3(Select2, { value: s.fontWeight ?? "normal", onChange: (v) => upd({ fontWeight: v }), options: [
+    { value: "normal", label: "\u0645\u0639\u0645\u0648\u0644\u06CC" },
+    { value: "medium", label: "\u0645\u062A\u0648\u0633\u0637" },
+    { value: "semibold", label: "\u0646\u06CC\u0645\u0647\u200C\u0636\u062E\u06CC\u0645" },
+    { value: "bold", label: "\u0636\u062E\u06CC\u0645" }
+  ] }) }), _jsx3(Row2, { label: "\u0631\u0646\u06AF \u0645\u062A\u0646", children: _jsx3(ColorInput, { value: s.textColor ?? "#1e293b", onChange: (v) => upd({ textColor: v }) }) }), _jsx3(Row2, { label: "\u062A\u0631\u0627\u0632\u0628\u0646\u062F\u06CC", children: _jsx3(Select2, { value: s.textAlign ?? "right", onChange: (v) => upd({ textAlign: v }), options: [
+    { value: "right", label: "\u0631\u0627\u0633\u062A" },
+    { value: "center", label: "\u0648\u0633\u0637" },
+    { value: "left", label: "\u0686\u067E" }
+  ] }) }), _jsx3(Row2, { label: "\u0641\u0627\u0635\u0644\u0647 \u062E\u0637\u0648\u0637", children: _jsx3(Select2, { value: s.lineHeight ?? "normal", onChange: (v) => upd({ lineHeight: v }), options: [
+    { value: "tight", label: "\u0641\u0634\u0631\u062F\u0647" },
+    { value: "normal", label: "\u0645\u0639\u0645\u0648\u0644\u06CC" },
+    { value: "relaxed", label: "\u0631\u0627\u062D\u062A" },
+    { value: "loose", label: "\u0628\u0627\u0632" }
+  ] }) }), _jsx3(Row2, { label: "\u0641\u0627\u0635\u0644\u0647 \u062D\u0631\u0648\u0641", children: _jsx3(Select2, { value: s.letterSpacing ?? "normal", onChange: (v) => upd({ letterSpacing: v }), options: [
+    { value: "tight", label: "\u0641\u0634\u0631\u062F\u0647" },
+    { value: "normal", label: "\u0645\u0639\u0645\u0648\u0644\u06CC" },
+    { value: "wide", label: "\u0628\u0627\u0632" },
+    { value: "wider", label: "\u062E\u06CC\u0644\u06CC \u0628\u0627\u0632" }
+  ] }) }), _jsx3(SectionTitle, { children: "\u0646\u0645\u0627\u06CC\u0634" }), _jsx3(Row2, { label: "\u0645\u062E\u0641\u06CC \u0645\u0648\u0628\u0627\u06CC\u0644", children: _jsx3(Toggle2, { value: s.hideOnMobile ?? false, onChange: (v) => upd({ hideOnMobile: v }) }) }), _jsx3(Row2, { label: "\u0645\u062E\u0641\u06CC \u062A\u0628\u0644\u062A", children: _jsx3(Toggle2, { value: s.hideOnTablet ?? false, onChange: (v) => upd({ hideOnTablet: v }) }) }), _jsx3(Row2, { label: "\u0645\u062E\u0641\u06CC \u062F\u0633\u06A9\u062A\u0627\u067E", children: _jsx3(Toggle2, { value: s.hideOnDesktop ?? false, onChange: (v) => upd({ hideOnDesktop: v }) }) }), _jsx3(Row2, { label: "\u0634\u0641\u0627\u0641\u06CC\u062A", children: _jsx3(Slider2, { value: s.opacity ?? 100, onChange: (v) => upd({ opacity: v }), min: 10, max: 100 }) }), _jsx3(SectionTitle, { children: "\u0627\u0646\u06CC\u0645\u06CC\u0634\u0646" }), _jsx3(Row2, { label: "\u0627\u0646\u06CC\u0645\u06CC\u0634\u0646 \u0648\u0631\u0648\u062F", children: _jsx3(Select2, { value: s.animation ?? "none", onChange: (v) => upd({ animation: v }), options: [
+    { value: "none", label: "\u0628\u062F\u0648\u0646" },
+    { value: "fade-in", label: "\u0645\u062D\u0648 \u0634\u062F\u0646" },
+    { value: "slide-up", label: "\u0627\u0632 \u067E\u0627\u06CC\u06CC\u0646" },
+    { value: "zoom-in", label: "\u0632\u0648\u0645" }
+  ] }) }), s.animation !== "none" && _jsx3(Row2, { label: "\u062A\u0623\u062E\u06CC\u0631 (ms)", children: _jsx3(Slider2, { value: s.animationDelay ?? 0, onChange: (v) => upd({ animationDelay: v }), min: 0, max: 1e3, step: 50 }) })] });
+}
+
+// app/components/GlobalSettingsPanel.js
+import { jsx as _jsx4, jsxs as _jsxs4 } from "react/jsx-runtime";
+import React3 from "react";
+import { useShallow } from "zustand/react/shallow";
+function Row3({ label, children }) {
+  return _jsxs4("div", { className: "flex items-start justify-between gap-2 py-2.5 border-b border-slate-100 last:border-0", children: [_jsx4("label", { className: "text-xs text-slate-600 font-medium mt-1.5 flex-shrink-0 w-28", children: label }), _jsx4("div", { className: "flex-1", children })] });
+}
+function Select3({ value, onChange, options }) {
+  return _jsx4("select", { value, onChange: (e) => onChange(e.target.value), className: "w-full border border-slate-200 rounded-lg px-2 py-1.5 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none bg-white", children: options.map((o) => _jsx4("option", { value: o.value, children: o.label }, o.value)) });
+}
+function ColorInput2({ value, onChange }) {
+  return _jsxs4("div", { className: "flex items-center gap-2", children: [_jsx4("input", { type: "color", value, onChange: (e) => onChange(e.target.value), className: "w-8 h-8 rounded cursor-pointer border border-slate-200" }), _jsx4("input", { type: "text", value, onChange: (e) => onChange(e.target.value), className: "flex-1 border border-slate-200 rounded-lg px-2 py-1 text-xs font-mono text-slate-700 focus:border-indigo-400 focus:outline-none" })] });
+}
+function Toggle3({ value, onChange }) {
+  return _jsx4("button", { onClick: () => onChange(!value), className: `relative w-10 h-5 rounded-full transition-colors ${value ? "bg-indigo-500" : "bg-slate-200"}`, children: _jsx4("span", { className: `absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${value ? "translate-x-5" : "translate-x-0.5"}` }) });
+}
+function Slider3({ value, onChange, min = 0, max = 100, step = 1 }) {
+  return _jsxs4("div", { className: "flex items-center gap-2", children: [_jsx4("input", { type: "range", min, max, step, value, onChange: (e) => onChange(Number(e.target.value)), className: "flex-1 h-1.5 accent-indigo-500" }), _jsxs4("span", { className: "text-xs text-slate-500 w-10 text-left", children: [value, "px"] })] });
+}
+function SectionTitle2({ children }) {
+  return _jsx4("div", { className: "text-xs font-bold text-slate-500 uppercase tracking-wider mt-4 mb-1 pb-1 border-b border-slate-100", children });
+}
+function GlobalSettingsPanel() {
+  const { globalSettings, updateGlobalSettings, exportJSON, importJSON } = useStore(useShallow((s) => ({
+    globalSettings: s.globalSettings,
+    updateGlobalSettings: s.updateGlobalSettings,
+    exportJSON: s.exportJSON,
+    importJSON: s.importJSON
+  })));
+  const g = globalSettings;
+  const upd = (patch) => updateGlobalSettings(patch);
+  const handleImport = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (e) => {
+      const file = e.target.files?.[0];
+      if (!file)
+        return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const text = ev.target?.result;
+        importJSON(text);
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  };
+  return _jsxs4("div", { children: [_jsx4(SectionTitle2, { children: "\u062C\u0647\u062A \u0648 \u0632\u0628\u0627\u0646" }), _jsx4(Row3, { label: "\u062C\u0647\u062A \u0633\u0627\u06CC\u062A", children: _jsx4(Select3, { value: g.direction, onChange: (v) => upd({ direction: v }), options: [
+    { value: "rtl", label: "\u0631\u0627\u0633\u062A \u0628\u0647 \u0686\u067E (RTL \u2014 \u0641\u0627\u0631\u0633\u06CC/\u0639\u0631\u0628\u06CC)" },
+    { value: "ltr", label: "\u0686\u067E \u0628\u0647 \u0631\u0627\u0633\u062A (LTR \u2014 English)" }
+  ] }) }), _jsx4(SectionTitle2, { children: "\u0631\u0646\u06AF\u200C\u0647\u0627\u06CC \u0627\u0635\u0644\u06CC" }), _jsx4(Row3, { label: "\u0631\u0646\u06AF \u0627\u0648\u0644", children: _jsx4(ColorInput2, { value: g.primaryColor, onChange: (v) => upd({ primaryColor: v }) }) }), _jsx4(Row3, { label: "\u0631\u0646\u06AF \u062F\u0648\u0645", children: _jsx4(ColorInput2, { value: g.secondaryColor, onChange: (v) => upd({ secondaryColor: v }) }) }), _jsx4(Row3, { label: "\u0631\u0646\u06AF \u062A\u0623\u06A9\u06CC\u062F\u06CC", children: _jsx4(ColorInput2, { value: g.accentColor, onChange: (v) => upd({ accentColor: v }) }) }), _jsx4(SectionTitle2, { children: "\u0641\u0648\u0646\u062A" }), _jsx4(Row3, { label: "\u0641\u0648\u0646\u062A \u0633\u0627\u06CC\u062A", children: _jsx4(Select3, { value: g.fontFamily, onChange: (v) => upd({ fontFamily: v }), options: [
+    { value: "default", label: "\u067E\u06CC\u0634\u200C\u0641\u0631\u0636 \u0633\u06CC\u0633\u062A\u0645" },
+    { value: "vazir", label: "\u0648\u0632\u06CC\u0631 (Vazir)" },
+    { value: "iransans", label: "\u0627\u06CC\u0631\u0627\u0646 \u0633\u0646\u0633 (IranSans)" },
+    { value: "roboto", label: "Roboto" },
+    { value: "poppins", label: "Poppins" }
+  ] }) }), _jsx4(SectionTitle2, { children: "\u0686\u06CC\u062F\u0645\u0627\u0646" }), _jsx4(Row3, { label: "\u062D\u062F\u0627\u06A9\u062B\u0631 \u0639\u0631\u0636", children: _jsx4(Slider3, { value: g.containerMaxWidth, onChange: (v) => upd({ containerMaxWidth: v }), min: 600, max: 1600, step: 50 }) }), _jsx4(Row3, { label: "\u067E\u0646\u0644 \u0686\u0633\u0628\u0627\u0646", children: _jsx4(Toggle3, { value: g.stickyPanel, onChange: (v) => upd({ stickyPanel: v }) }) }), _jsx4(SectionTitle2, { children: "Export / Import" }), _jsxs4("div", { className: "space-y-2 pt-1", children: [_jsx4("button", { onClick: exportJSON, className: "w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-2.5 text-sm font-medium transition-colors flex items-center justify-center gap-2", children: "\u{1F4E4} \u062E\u0631\u0648\u062C\u06CC JSON (\u0646\u0633\u062E\u0647\u200C\u062F\u0627\u0631)" }), _jsx4("button", { onClick: handleImport, className: "w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-xl py-2.5 text-sm font-medium transition-colors flex items-center justify-center gap-2", children: "\u{1F4E5} \u0648\u0631\u0648\u062F\u06CC JSON" })] }), _jsxs4("div", { className: "mt-3 p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-700", children: [_jsx4("div", { className: "font-bold mb-1", children: "\u2139\uFE0F \u0641\u0631\u0645\u062A \u0646\u0633\u062E\u0647\u200C\u062F\u0627\u0631 (v2.0)" }), "\u0641\u0627\u06CC\u0644 JSON \u062E\u0631\u0648\u062C\u06CC \u062F\u0627\u0631\u0627\u06CC \u0641\u06CC\u0644\u062F ", _jsx4("code", { children: "version" }), " \u0627\u0633\u062A \u06A9\u0647 \u062F\u0631 \u0622\u067E\u062F\u06CC\u062A\u200C\u0647\u0627\u06CC \u0622\u06CC\u0646\u062F\u0647 \u0628\u0631\u0627\u06CC migrate \u06A9\u0631\u062F\u0646 \u062F\u0627\u062F\u0647\u200C\u0647\u0627\u06CC \u0642\u062F\u06CC\u0645\u06CC \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u0645\u06CC\u200C\u0634\u0648\u062F."] })] });
+}
+
+// app/components/PresetsPanel.js
+import { jsx as _jsx5, jsxs as _jsxs5 } from "react/jsx-runtime";
+function PresetsPanel() {
+  const applyTemplate = useStore((s) => s.applyTemplate);
+  return _jsxs5("div", { className: "space-y-3", children: [_jsx5("div", { className: "text-xs text-slate-500 bg-amber-50 border border-amber-200 rounded-xl p-3", children: "\u26A0\uFE0F \u0627\u0639\u0645\u0627\u0644 \u0642\u0627\u0644\u0628\u060C \u062A\u0645\u0627\u0645 \u0627\u0644\u0645\u0627\u0646\u200C\u0647\u0627 \u0648 \u062A\u0646\u0638\u06CC\u0645\u0627\u062A \u0641\u0639\u0644\u06CC \u0631\u0627 \u062C\u0627\u06CC\u06AF\u0632\u06CC\u0646 \u0645\u06CC\u200C\u06A9\u0646\u062F. \u0645\u0637\u0645\u0626\u0646 \u0634\u0648\u06CC\u062F \u06A9\u0647 \u0630\u062E\u06CC\u0631\u0647 \u06A9\u0631\u062F\u0647\u200C\u0627\u06CC\u062F." }), TEMPLATES.map((t) => _jsxs5("div", { className: "border border-slate-200 rounded-xl overflow-hidden hover:border-indigo-300 transition-all group", children: [_jsxs5("div", { className: "flex items-start gap-3 p-3", children: [_jsx5("span", { className: "text-3xl flex-shrink-0", children: t.icon }), _jsxs5("div", { className: "flex-1 min-w-0", children: [_jsx5("div", { className: "font-bold text-sm text-slate-800", children: t.name }), _jsx5("div", { className: "text-xs text-slate-500 mt-0.5", children: t.description }), _jsxs5("div", { className: "flex flex-wrap gap-1 mt-2", children: [Object.entries(t.globalSettings).filter(([k]) => k.endsWith("Color")).map(([k, v]) => _jsx5("span", { className: "w-4 h-4 rounded-full border border-white shadow-sm inline-block", style: { backgroundColor: v } }, k)), _jsxs5("span", { className: "text-xs text-slate-400 mr-1", children: [t.elements.length, " \u0627\u0644\u0645\u0627\u0646"] })] })] }), _jsx5("button", { onClick: () => {
+    if (confirm(`\u0627\u0639\u0645\u0627\u0644 \u0642\u0627\u0644\u0628 "${t.name}"?`))
+      applyTemplate(t.id);
+  }, className: "flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-3 py-1.5 text-xs font-medium transition-colors self-center", children: "\u0627\u0639\u0645\u0627\u0644" })] }), _jsxs5("div", { className: "px-3 pb-3 flex flex-wrap gap-1", children: [t.elements.slice(0, 12).map((type) => _jsx5("span", { className: "text-xs bg-slate-100 text-slate-600 rounded px-1.5 py-0.5", children: type }, type)), t.elements.length > 12 && _jsxs5("span", { className: "text-xs text-slate-400", children: ["+", t.elements.length - 12, " \u0628\u06CC\u0634\u062A\u0631"] })] })] }, t.id))] });
+}
+
+// app/components/HelpPanel.js
+import { jsx as _jsx6, jsxs as _jsxs6 } from "react/jsx-runtime";
+function HelpPanel() {
+  const shortcuts = [
+    { key: "Ctrl + Z", desc: "\u0628\u0627\u0632\u06AF\u0634\u062A (Undo)" },
+    { key: "Ctrl + Y", desc: "\u0628\u0631\u06AF\u0634\u062A (Redo)" },
+    { key: "Ctrl + S", desc: "\u0630\u062E\u06CC\u0631\u0647" },
+    { key: "Delete", desc: "\u062D\u0630\u0641 \u0627\u0644\u0645\u0627\u0646 \u0627\u0646\u062A\u062E\u0627\u0628\u200C\u0634\u062F\u0647" },
+    { key: "\u2191 / \u2193", desc: "\u062C\u0627\u0628\u0647\u200C\u062C\u0627\u06CC\u06CC \u0627\u0644\u0645\u0627\u0646 \u0627\u0646\u062A\u062E\u0627\u0628\u200C\u0634\u062F\u0647" },
+    { key: "Esc", desc: "\u0631\u0647\u0627\u06A9\u0631\u062F\u0646 \u0627\u0646\u062A\u062E\u0627\u0628" }
+  ];
+  const fixedBugs = [
+    { num: "\u06F1", bug: "\u062A\u0628\u200C\u0647\u0627 (Tabs): \u0686\u06CC\u062F\u0645\u0627\u0646 \u0627\u0641\u0642\u06CC/\u0639\u0645\u0648\u062F\u06CC/\u0622\u06A9\u0627\u0631\u062F\u0626\u0648\u0646 \u0627\u06A9\u0646\u0648\u0646 \u0648\u0627\u0642\u0639\u0627\u064B \u062A\u0623\u062B\u06CC\u0631 \u0645\u06CC\u200C\u06AF\u0630\u0627\u0631\u062F" },
+    { num: "\u06F2", bug: "Bundle: \u0686\u06CC\u062F\u0645\u0627\u0646 \u0627\u0641\u0642\u06CC/\u0639\u0645\u0648\u062F\u06CC \u0627\u06A9\u0646\u0648\u0646 \u0645\u062A\u0641\u0627\u0648\u062A \u0631\u0646\u062F\u0631 \u0645\u06CC\u200C\u0634\u0648\u062F" },
+    { num: "\u06F3", bug: "\u0645\u062D\u0635\u0648\u0644\u0627\u062A \u0645\u0631\u062A\u0628\u0637: Grid/Slider \u0627\u06A9\u0646\u0648\u0646 \u0627\u0639\u0645\u0627\u0644 \u0645\u06CC\u200C\u0634\u0648\u062F" },
+    { num: "\u06F4", bug: "\u0627\u062E\u06CC\u0631\u0627\u064B \u0645\u0634\u0627\u0647\u062F\u0647\u200C\u0634\u062F\u0647: Grid/Slider \u0627\u06A9\u0646\u0648\u0646 \u0627\u0639\u0645\u0627\u0644 \u0645\u06CC\u200C\u0634\u0648\u062F" },
+    { num: "\u06F5", bug: "\u0648\u06CC\u0698\u06AF\u06CC\u200C\u0647\u0627\u06CC \u06A9\u0648\u062A\u0627\u0647: \u0647\u0631 \u0633\u0647 \u062D\u0627\u0644\u062A (\u0627\u0641\u0642\u06CC/\u0634\u0628\u06A9\u0647/\u0639\u0645\u0648\u062F\u06CC) \u0627\u06A9\u0646\u0648\u0646 \u0645\u062A\u0645\u0627\u06CC\u0632 \u0647\u0633\u062A\u0646\u062F" },
+    { num: "\u06F6", bug: "Variations: \u0646\u0648\u0639 \xAB\u062A\u0635\u0648\u06CC\u0631\xBB (image) \u0627\u06A9\u0646\u0648\u0646 \u0631\u0646\u062F\u0631 \u0645\u06CC\u200C\u0634\u0648\u062F \u0648 \u062E\u0627\u0644\u06CC \u0646\u06CC\u0633\u062A" },
+    { num: "\u06F7", bug: "Action Buttons: hoverAnimation \u0627\u06A9\u0646\u0648\u0646 \u0628\u0647 \u06A9\u0644\u0627\u0633 CSS \u062A\u0628\u062F\u06CC\u0644 \u0645\u06CC\u200C\u0634\u0648\u062F" },
+    { num: "\u06F8", bug: "Breadcrumb: separatorIcon \u0627\u06A9\u0646\u0648\u0646 \u062F\u0631 \u067E\u06CC\u0634\u200C\u0646\u0645\u0627\u06CC\u0634 \u0646\u0645\u0627\u06CC\u0634 \u062F\u0627\u062F\u0647 \u0645\u06CC\u200C\u0634\u0648\u062F" },
+    { num: "\u06F9", bug: "Pro Features: showQuickContact \u0627\u06A9\u0646\u0648\u0646 \u062F\u0631 \u067E\u06CC\u0634\u200C\u0646\u0645\u0627\u06CC\u0634 \u0631\u0646\u062F\u0631 \u0645\u06CC\u200C\u0634\u0648\u062F" },
+    { num: "\u06F1\u06F0", bug: "Pro Features: showCustomOrder \u0648 showBranchStock \u067E\u06CC\u0627\u062F\u0647\u200C\u0633\u0627\u0632\u06CC \u0634\u062F\u0646\u062F" },
+    { num: "\u06F1\u06F2", bug: "SEO: \u0641\u06CC\u0644\u062F metaDescriptionText \u0628\u0631\u0627\u06CC \u0648\u0631\u0648\u062F \u0645\u062A\u0646 \u0648\u0627\u0642\u0639\u06CC \u0627\u0636\u0627\u0641\u0647 \u0634\u062F" }
+  ];
+  const newFeatures = [
+    "\u{1F504} Undo/Redo (Ctrl+Z/Y) \u0628\u0627 \u062A\u0627\u0631\u06CC\u062E\u0686\u0647 \u06F5\u06F0 \u0645\u0631\u062D\u0644\u0647",
+    "\u29C9 \u062A\u06A9\u062B\u06CC\u0631 (Duplicate) \u0647\u0631 \u0627\u0644\u0645\u0627\u0646 \u0628\u0627 \u06CC\u06A9 \u06A9\u0644\u06CC\u06A9",
+    "\u{1F4CB} \u06F5 \u0642\u0627\u0644\u0628 \u0622\u0645\u0627\u062F\u0647 (\u067E\u0648\u0634\u0627\u06A9\u060C \u062F\u06CC\u062C\u06CC\u062A\u0627\u0644\u060C \u0645\u06CC\u0646\u06CC\u0645\u0627\u0644\u060C \u0641\u0631\u0648\u0634 \u0648\u06CC\u0698\u0647\u060C \u06A9\u0627\u0645\u0644)",
+    "\u{1F50D} \u062C\u0633\u062A\u200C\u0648\u062C\u0648 \u0648 \u062F\u0633\u062A\u0647\u200C\u0628\u0646\u062F\u06CC \u062F\u0631 \u0644\u06CC\u0633\u062A \u0627\u0641\u0632\u0648\u062F\u0646 \u0627\u0644\u0645\u0627\u0646",
+    "\u{1F3A8} \u06A9\u0644\u0627\u0633 CSS \u0633\u0641\u0627\u0631\u0634\u06CC \u0648 ID \u0628\u0631\u0627\u06CC \u0647\u0631 \u0627\u0644\u0645\u0627\u0646",
+    "\u{1F441}\uFE0F \u0646\u0645\u0627\u06CC\u0634 \u0634\u0631\u0637\u06CC (Conditional Visibility) \u0628\u0631\u0627\u06CC \u0647\u0631 \u0627\u0644\u0645\u0627\u0646",
+    "\u{1F5A5}\uFE0F \u0633\u0648\u06CC\u06CC\u0686\u0631 \u06F5 \u0633\u0646\u0627\u0631\u06CC\u0648 \u0645\u062D\u0635\u0648\u0644 \u0645\u062E\u062A\u0644\u0641 \u062F\u0631 \u067E\u06CC\u0634\u200C\u0646\u0645\u0627\u06CC\u0634",
+    "\u2328\uFE0F \u0645\u06CC\u0627\u0646\u200C\u0628\u0631\u0647\u0627\u06CC \u0635\u0641\u062D\u0647\u200C\u06A9\u0644\u06CC\u062F",
+    "\u{1F4BE} Autosave \u062E\u0648\u062F\u06A9\u0627\u0631 \u0647\u0631 \u06F3\u06F0 \u062B\u0627\u0646\u06CC\u0647 \u0628\u0647 localStorage",
+    "\u26A0\uFE0F \u0647\u0634\u062F\u0627\u0631 \u062E\u0631\u0648\u062C \u0628\u062F\u0648\u0646 \u0630\u062E\u06CC\u0631\u0647 (beforeunload)",
+    "\u2194 \u0633\u0648\u06CC\u06CC\u0686 RTL/LTR \u0633\u0631\u0627\u0633\u0631\u06CC",
+    "\u{1F3F7}\uFE0F \u06F4 \u0627\u0633\u06A9\u06CC\u0646 \u0622\u0645\u0627\u062F\u0647 (Quick Presets) \u0628\u0631\u0627\u06CC \u0647\u0631 \u0627\u0644\u0645\u0627\u0646",
+    "\u{1F4E6} \u0641\u0631\u0645\u062A Export/Import \u0646\u0633\u062E\u0647\u200C\u062F\u0627\u0631 (v2.0)",
+    "\u2B06\u2B07 \u062F\u06A9\u0645\u0647\u200C\u0647\u0627\u06CC \u062C\u0627\u0628\u0647\u200C\u062C\u0627\u06CC\u06CC \u062A\u0631\u062A\u06CC\u0628 (\u062C\u0627\u06CC\u06AF\u0632\u06CC\u0646 \u06A9\u06CC\u0628\u0648\u0631\u062F\u06CC Drag)",
+    "ARIA labels \u0628\u0631\u0627\u06CC \u062F\u06A9\u0645\u0647\u200C\u0647\u0627\u06CC \u0622\u06CC\u06A9\u0648\u0646\u06CC (\u062F\u0633\u062A\u0631\u0633\u06CC\u200C\u067E\u0630\u06CC\u0631\u06CC)"
+  ];
+  return _jsxs6("div", { className: "space-y-4 text-xs", children: [_jsxs6("div", { children: [_jsx6("div", { className: "font-bold text-slate-700 text-sm mb-2", children: "\u2328\uFE0F \u0645\u06CC\u0627\u0646\u200C\u0628\u0631\u0647\u0627\u06CC \u0635\u0641\u062D\u0647\u200C\u06A9\u0644\u06CC\u062F" }), _jsx6("div", { className: "space-y-1", children: shortcuts.map((s) => _jsxs6("div", { className: "flex items-center justify-between bg-slate-50 rounded-lg px-3 py-2", children: [_jsx6("code", { className: "bg-white border border-slate-200 rounded px-1.5 py-0.5 text-slate-700 font-mono text-xs", children: s.key }), _jsx6("span", { className: "text-slate-600", children: s.desc })] }, s.key)) })] }), _jsxs6("div", { children: [_jsx6("div", { className: "font-bold text-slate-700 text-sm mb-2", children: "\u{1F41B} \u0628\u0627\u06AF\u200C\u0647\u0627\u06CC \u0631\u0641\u0639\u200C\u0634\u062F\u0647" }), _jsx6("div", { className: "space-y-1", children: fixedBugs.map((b) => _jsxs6("div", { className: "flex gap-2 bg-green-50 border border-green-100 rounded-lg px-3 py-2", children: [_jsxs6("span", { className: "text-green-600 font-bold flex-shrink-0", children: ["#", b.num] }), _jsx6("span", { className: "text-green-800", children: b.bug })] }, b.num)) })] }), _jsxs6("div", { children: [_jsx6("div", { className: "font-bold text-slate-700 text-sm mb-2", children: "\u2728 \u0648\u06CC\u0698\u06AF\u06CC\u200C\u0647\u0627\u06CC \u062C\u062F\u06CC\u062F" }), _jsx6("div", { className: "space-y-1", children: newFeatures.map((f) => _jsx6("div", { className: "bg-indigo-50 border border-indigo-100 rounded-lg px-3 py-2 text-indigo-800", children: f }, f)) })] }), _jsxs6("div", { className: "bg-amber-50 border border-amber-200 rounded-xl p-3", children: [_jsx6("div", { className: "font-bold text-amber-800 mb-1", children: "\u{1F4A1} \u0646\u06A9\u0627\u062A" }), _jsxs6("ul", { className: "text-amber-700 space-y-1 list-disc list-inside", children: [_jsx6("li", { children: "\u062A\u063A\u06CC\u06CC\u0631\u0627\u062A \u0647\u0631 \u06F3\u06F0 \u062B\u0627\u0646\u06CC\u0647 \u062E\u0648\u062F\u06A9\u0627\u0631 \u0630\u062E\u06CC\u0631\u0647 \u0645\u06CC\u200C\u0634\u0648\u0646\u062F" }), _jsx6("li", { children: "\u0628\u0631\u0627\u06CC \u062A\u0633\u062A \u0686\u06CC\u062F\u0645\u0627\u0646\u060C \u0633\u0646\u0627\u0631\u06CC\u0648\u0647\u0627\u06CC \u0645\u062E\u062A\u0644\u0641 \u0631\u0627 \u062F\u0631 \u067E\u06CC\u0634\u200C\u0646\u0645\u0627\u06CC\u0634 \u0627\u0645\u062A\u062D\u0627\u0646 \u06A9\u0646\u06CC\u062F" }), _jsx6("li", { children: "\u0627\u0632 \u0642\u0627\u0644\u0628\u200C\u0647\u0627\u06CC \u0622\u0645\u0627\u062F\u0647 \u0628\u0631\u0627\u06CC \u0634\u0631\u0648\u0639 \u0633\u0631\u06CC\u0639 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u06A9\u0646\u06CC\u062F" }), _jsx6("li", { children: "\u062F\u0631 \u067E\u0646\u0644 \u0627\u0633\u062A\u0627\u06CC\u0644\u060C \xAB\u0627\u0633\u06A9\u06CC\u0646 \u0622\u0645\u0627\u062F\u0647\xBB \u0631\u0627 \u0627\u0645\u062A\u062D\u0627\u0646 \u06A9\u0646\u06CC\u062F" })] })] })] });
+}
+
+// app/components/PreviewPanel.js
+import { jsx as _jsx8, jsxs as _jsxs8 } from "react/jsx-runtime";
+import { useShallow as useShallow2 } from "zustand/react/shallow";
+
+// app/components/PreviewElements.js
+import { jsx as _jsx7, jsxs as _jsxs7, Fragment as _Fragment3 } from "react/jsx-runtime";
+import React4, { useState as useState2, useEffect } from "react";
+var SCENARIOS = {
+  default: {
+    name: "\u06AF\u0648\u0634\u06CC \u0633\u0627\u0645\u0633\u0648\u0646\u06AF Galaxy S24 Ultra",
+    brand: "Samsung",
+    sku: "SAM-S24U-256-BLK",
+    price: 52e6,
+    originalPrice: 58e6,
+    discount: 10,
+    inStock: true,
+    stockCount: 7,
+    rating: 4.6,
+    reviewCount: 284,
+    hasGallery: true,
+    hasVariations: true,
+    category: "\u06AF\u0648\u0634\u06CC \u0645\u0648\u0628\u0627\u06CC\u0644"
+  },
+  "no-discount": {
+    name: "\u0644\u067E\u200C\u062A\u0627\u067E Dell XPS 15",
+    brand: "Dell",
+    sku: "DELL-XPS15-2024",
+    price: 85e6,
+    originalPrice: 85e6,
+    discount: 0,
+    inStock: true,
+    stockCount: 15,
+    rating: 4.8,
+    reviewCount: 132,
+    hasGallery: true,
+    hasVariations: false,
+    category: "\u0644\u067E\u200C\u062A\u0627\u067E"
+  },
+  "out-of-stock": {
+    name: "\u0647\u062F\u0641\u0648\u0646 \u0633\u0648\u0646\u06CC WH-1000XM5",
+    brand: "Sony",
+    sku: "SONY-WH1000XM5-BLK",
+    price: 185e5,
+    originalPrice: 21e6,
+    discount: 12,
+    inStock: false,
+    stockCount: 0,
+    rating: 4.9,
+    reviewCount: 512,
+    hasGallery: true,
+    hasVariations: false,
+    category: "\u0647\u062F\u0641\u0648\u0646"
+  },
+  "no-gallery": {
+    name: "\u06A9\u06CC\u0641 \u0686\u0631\u0645\u06CC \u062F\u0633\u062A\u06CC",
+    brand: "Leather Co",
+    sku: "LC-BAG-001-BRN",
+    price: 42e5,
+    originalPrice: 5e6,
+    discount: 16,
+    inStock: true,
+    stockCount: 3,
+    rating: 4.2,
+    reviewCount: 67,
+    hasGallery: false,
+    hasVariations: true,
+    category: "\u06A9\u06CC\u0641"
+  },
+  "complex-variations": {
+    name: "\u06A9\u0641\u0634 \u0627\u0633\u067E\u0631\u062A \u0646\u0627\u06CC\u06A9 Air Max",
+    brand: "Nike",
+    sku: "NIKE-AIRMAX-2024",
+    price: 125e5,
+    originalPrice: 14e6,
+    discount: 10,
+    inStock: true,
+    stockCount: 24,
+    rating: 4.5,
+    reviewCount: 341,
+    hasGallery: true,
+    hasVariations: true,
+    category: "\u06A9\u0641\u0634"
+  }
+};
+function formatPrice(n) {
+  return n.toLocaleString("fa-IR") + " \u062A\u0648\u0645\u0627\u0646";
+}
+function buildStyle(el) {
+  const s = el.style;
+  if (!s)
+    return {};
+  const style = {
+    marginTop: s.marginTop,
+    marginBottom: s.marginBottom,
+    paddingTop: s.paddingTop,
+    paddingBottom: s.paddingBottom,
+    paddingLeft: s.paddingLeft,
+    paddingRight: s.paddingRight,
+    borderRadius: s.borderRadius,
+    opacity: (s.opacity ?? 100) / 100,
+    fontSize: s.fontSize,
+    fontWeight: s.fontWeight,
+    color: s.textColor,
+    textAlign: s.textAlign,
+    lineHeight: s.lineHeight === "tight" ? 1.25 : s.lineHeight === "relaxed" ? 1.75 : s.lineHeight === "loose" ? 2 : 1.5,
+    letterSpacing: s.letterSpacing === "tight" ? "-0.05em" : s.letterSpacing === "wide" ? "0.05em" : s.letterSpacing === "wider" ? "0.1em" : "normal",
+    boxShadow: s.boxShadow === "sm" ? "0 1px 2px rgba(0,0,0,0.08)" : s.boxShadow === "md" ? "0 4px 6px rgba(0,0,0,0.1)" : s.boxShadow === "lg" ? "0 10px 15px rgba(0,0,0,0.1)" : s.boxShadow === "xl" ? "0 20px 25px rgba(0,0,0,0.15)" : "none"
+  };
+  if (s.borderStyle && s.borderStyle !== "none" && s.borderWidth) {
+    style.borderWidth = s.borderWidth;
+    style.borderStyle = s.borderStyle;
+    style.borderColor = s.borderColor;
+  }
+  if (s.backgroundType === "solid") {
+    style.backgroundColor = s.backgroundColor;
+  } else if (s.backgroundType === "gradient") {
+    const dir = s.gradientDirection === "to-br" ? "135deg" : s.gradientDirection === "to-b" ? "180deg" : s.gradientDirection === "to-bl" ? "225deg" : "90deg";
+    style.background = `linear-gradient(${dir}, ${s.gradientFrom}, ${s.gradientTo})`;
+  }
+  return style;
+}
+function BreadcrumbPreview({ el, product, global: _g }) {
+  const { separator = "/", separatorIcon = "chevron", showHome = true } = el.settings;
+  const sepChar = separatorIcon === "arrow" ? "\u2192" : separatorIcon === "chevron" ? "\u203A" : separatorIcon === "dot" ? "\xB7" : separator;
+  return _jsxs7("div", { style: buildStyle(el), className: "flex items-center gap-1 text-sm text-slate-500 flex-wrap", children: [showHome && _jsx7("span", { className: "hover:text-indigo-500 cursor-pointer", children: "\u062E\u0627\u0646\u0647" }), showHome && _jsx7("span", { className: "mx-1 text-slate-300", children: sepChar }), _jsx7("span", { className: "hover:text-indigo-500 cursor-pointer", children: product.category }), _jsx7("span", { className: "mx-1 text-slate-300", children: sepChar }), _jsx7("span", { className: "text-slate-800 font-medium truncate max-w-xs", children: product.name })] });
+}
+function GalleryPreview({ el, product }) {
+  const { showThumbnails = true, thumbnailPosition = "bottom", enableZoom = true } = el.settings;
+  const [activeThumb, setActiveThumb] = useState2(0);
+  const thumbs = product.hasGallery ? ["\u{1F4F7}", "\u{1F50D}", "\u{1F4D0}", "\u2728"] : ["\u{1F4F7}"];
+  const thumbnailList = _jsx7("div", { className: `flex gap-2 ${thumbnailPosition === "left" || thumbnailPosition === "right" ? "flex-col" : "flex-row"}`, children: thumbs.map((t, i) => _jsx7("div", { onClick: () => setActiveThumb(i), className: `w-14 h-14 rounded-lg border-2 flex items-center justify-center cursor-pointer text-xl transition-all
+            ${activeThumb === i ? "border-indigo-500 bg-indigo-50" : "border-slate-200 bg-slate-100 hover:border-indigo-300"}`, children: t }, i)) });
+  return _jsx7("div", { style: buildStyle(el), children: _jsxs7("div", { className: `flex gap-3 ${thumbnailPosition === "left" ? "flex-row-reverse" : thumbnailPosition === "right" ? "flex-row" : "flex-col"}`, children: [_jsxs7("div", { className: "flex-1 bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl aspect-square flex items-center justify-center relative overflow-hidden group", children: [_jsx7("span", { className: "text-7xl", children: thumbs[activeThumb] }), enableZoom && _jsx7("div", { className: "absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-full p-1 shadow text-xs", children: "\u{1F50D}" }), !product.hasGallery && _jsx7("div", { className: "absolute inset-0 flex items-center justify-center bg-slate-200/80 text-slate-500 text-sm", children: "\u0628\u062F\u0648\u0646 \u062A\u0635\u0648\u06CC\u0631" })] }), showThumbnails && product.hasGallery && thumbnailList] }) });
+}
+function TitlePreview({ el, product }) {
+  return _jsxs7("div", { style: buildStyle(el), children: [_jsx7("h1", { className: "text-xl font-bold text-slate-900 leading-snug", children: product.name }), _jsxs7("div", { className: "flex gap-3 mt-1 text-sm text-slate-500", children: [_jsxs7("span", { children: ["\u0628\u0631\u0646\u062F: ", _jsx7("span", { className: "text-indigo-600 font-medium", children: product.brand })] }), _jsxs7("span", { children: ["\u06A9\u062F: ", product.sku] })] })] });
+}
+function PricePreview({ el, product }) {
+  return _jsxs7("div", { style: buildStyle(el), className: "flex items-center gap-3 flex-wrap", children: [_jsx7("span", { className: "text-2xl font-bold text-red-600", children: formatPrice(product.price) }), product.discount > 0 && _jsxs7(_Fragment3, { children: [_jsx7("span", { className: "text-base text-slate-400 line-through", children: formatPrice(product.originalPrice) }), _jsxs7("span", { className: "bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full", children: ["%", product.discount, " \u062A\u062E\u0641\u06CC\u0641"] })] })] });
+}
+function RatingPreview({ el, product }) {
+  const { showCount = true, showBreakdown = false } = el.settings;
+  const stars = Math.round(product.rating);
+  return _jsxs7("div", { style: buildStyle(el), children: [_jsxs7("div", { className: "flex items-center gap-2", children: [_jsx7("div", { className: "flex", children: [1, 2, 3, 4, 5].map((s) => _jsx7("span", { className: s <= stars ? "text-yellow-400" : "text-slate-300", children: "\u2605" }, s)) }), _jsx7("span", { className: "text-sm font-semibold text-slate-700", children: product.rating }), showCount && _jsxs7("span", { className: "text-sm text-slate-500", children: ["(", product.reviewCount, " \u0646\u0638\u0631)"] })] }), showBreakdown && _jsx7("div", { className: "mt-2 space-y-1", children: [5, 4, 3, 2, 1].map((s) => {
+    const pct = s === 5 ? 62 : s === 4 ? 24 : s === 3 ? 8 : s === 2 ? 4 : 2;
+    return _jsxs7("div", { className: "flex items-center gap-2 text-xs", children: [_jsxs7("span", { className: "w-3", children: [s, "\u2605"] }), _jsx7("div", { className: "flex-1 bg-slate-100 rounded-full h-1.5", children: _jsx7("div", { className: "bg-yellow-400 h-1.5 rounded-full", style: { width: `${pct}%` } }) }), _jsxs7("span", { className: "text-slate-500 w-6", children: [pct, "%"] })] }, s);
+  }) })] });
+}
+function ShortDescriptionPreview({ el }) {
+  return _jsx7("div", { style: buildStyle(el), className: "text-sm text-slate-600 leading-relaxed", children: "\u0627\u06CC\u0646 \u0645\u062D\u0635\u0648\u0644 \u0628\u0627 \u0628\u0647\u062A\u0631\u06CC\u0646 \u06A9\u06CC\u0641\u06CC\u062A \u0633\u0627\u062E\u062A\u0647 \u0634\u062F\u0647 \u0648 \u062F\u0627\u0631\u0627\u06CC \u0636\u0645\u0627\u0646\u062A \u0627\u0635\u0627\u0644\u062A \u06A9\u0627\u0644\u0627 \u0627\u0633\u062A. \u0645\u0646\u0627\u0633\u0628 \u0628\u0631\u0627\u06CC \u06A9\u0627\u0631\u0628\u0631\u0627\u0646 \u062D\u0631\u0641\u0647\u200C\u0627\u06CC \u06A9\u0647 \u0628\u0647 \u062F\u0646\u0628\u0627\u0644 \u0628\u0647\u062A\u0631\u06CC\u0646 \u062A\u062C\u0631\u0628\u0647 \u0647\u0633\u062A\u0646\u062F." });
+}
+function ShortFeaturesPreview({ el }) {
+  const { layout = "horizontal", showIcons = true } = el.settings;
+  const features = [
+    { icon: "\u{1F50B}", text: "\u0628\u0627\u062A\u0631\u06CC \u06F5\u06F0\u06F0\u06F0 \u0645\u06CC\u0644\u06CC\u200C\u0622\u0645\u067E\u0631" },
+    { icon: "\u{1F4F7}", text: "\u062F\u0648\u0631\u0628\u06CC\u0646 \u06F2\u06F0\u06F0 \u0645\u06AF\u0627\u067E\u06CC\u06A9\u0633\u0644" },
+    { icon: "\u26A1", text: "\u0634\u0627\u0631\u0698 \u0633\u0631\u06CC\u0639 \u06F4\u06F5 \u0648\u0627\u062A" },
+    { icon: "\u{1F4BE}", text: "\u062D\u0627\u0641\u0638\u0647 \u06F2\u06F5\u06F6 \u06AF\u06CC\u06AF\u0627\u0628\u0627\u06CC\u062A" },
+    { icon: "\u{1F6E1}\uFE0F", text: "\u0636\u0645\u0627\u0646\u062A \u06F1\u06F8 \u0645\u0627\u0647\u0647" },
+    { icon: "\u{1F310}", text: "\u067E\u0634\u062A\u06CC\u0628\u0627\u0646\u06CC \u0627\u0632 \u06F5G" }
+  ];
+  if (layout === "horizontal") {
+    return _jsx7("div", { style: buildStyle(el), className: "grid grid-cols-3 gap-2", children: features.map((f, i) => _jsxs7("div", { className: "flex items-center gap-1.5 bg-slate-50 rounded-lg px-2 py-1.5 text-xs", children: [showIcons && _jsx7("span", { children: f.icon }), _jsx7("span", { className: "text-slate-700", children: f.text })] }, i)) });
+  } else if (layout === "grid") {
+    return _jsx7("div", { style: buildStyle(el), className: "grid grid-cols-2 gap-3", children: features.map((f, i) => _jsxs7("div", { className: "flex flex-col items-center text-center bg-white border border-slate-200 rounded-xl p-3 gap-1 shadow-sm", children: [showIcons && _jsx7("span", { className: "text-2xl", children: f.icon }), _jsx7("span", { className: "text-xs text-slate-700", children: f.text })] }, i)) });
+  } else {
+    return _jsx7("div", { style: buildStyle(el), className: "space-y-1.5", children: features.map((f, i) => _jsxs7("div", { className: "flex items-center gap-2 text-sm", children: [showIcons && _jsx7("span", { children: f.icon }), _jsx7("span", { className: "text-slate-700", children: f.text })] }, i)) });
+  }
+}
+function VariationsPreview({ el, product }) {
+  const { variationType = "button", showVariationLabel = true } = el.settings;
+  const [selected, setSelected] = useState2("\u0645\u0634\u06A9\u06CC");
+  const colors = [
+    { name: "\u0645\u0634\u06A9\u06CC", hex: "#1e293b", img: "\u{1F5A4}" },
+    { name: "\u0633\u0641\u06CC\u062F", hex: "#f8fafc", img: "\u{1F90D}" },
+    { name: "\u0628\u0646\u0641\u0634", hex: "#7c3aed", img: "\u{1F49C}" },
+    { name: "\u0622\u0628\u06CC", hex: "#2563eb", img: "\u{1F499}" }
+  ];
+  const sizes = ["\u06F1\u06F2\u06F8GB", "\u06F2\u06F5\u06F6GB", "\u06F5\u06F1\u06F2GB", "\u06F1TB"];
+  if (!product.hasVariations)
+    return null;
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-3", children: [_jsxs7("div", { children: [showVariationLabel && _jsxs7("div", { className: "text-sm font-medium text-slate-700 mb-1.5", children: ["\u0631\u0646\u06AF: ", _jsx7("span", { className: "text-indigo-600", children: selected })] }), _jsxs7("div", { className: "flex gap-2 flex-wrap", children: [variationType === "button" && colors.map((c) => _jsx7("button", { onClick: () => setSelected(c.name), className: `px-3 py-1.5 rounded-lg border-2 text-sm font-medium transition-all
+                ${selected === c.name ? "border-indigo-500 bg-indigo-50 text-indigo-700" : "border-slate-200 text-slate-600 hover:border-indigo-300"}`, children: c.name }, c.name)), variationType === "color" && colors.map((c) => _jsx7("button", { onClick: () => setSelected(c.name), title: c.name, className: `w-8 h-8 rounded-full border-4 transition-all ${selected === c.name ? "border-indigo-400 scale-110" : "border-white shadow-md"}`, style: { backgroundColor: c.hex } }, c.name)), variationType === "dropdown" && _jsx7("select", { className: "border border-slate-300 rounded-lg px-3 py-1.5 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none", value: selected, onChange: (e) => setSelected(e.target.value), children: colors.map((c) => _jsx7("option", { value: c.name, children: c.name }, c.name)) }), variationType === "image" && colors.map((c) => _jsx7("button", { onClick: () => setSelected(c.name), title: c.name, className: `w-14 h-14 rounded-lg border-2 flex items-center justify-center text-2xl transition-all
+                ${selected === c.name ? "border-indigo-500 ring-2 ring-indigo-300 scale-105" : "border-slate-200 hover:border-indigo-300"}`, style: { backgroundColor: c.hex + "22" }, children: c.img }, c.name))] })] }), _jsxs7("div", { children: [showVariationLabel && _jsx7("div", { className: "text-sm font-medium text-slate-700 mb-1.5", children: "\u0638\u0631\u0641\u06CC\u062A:" }), _jsx7("div", { className: "flex gap-2 flex-wrap", children: sizes.map((s) => _jsx7("button", { className: "px-3 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-600 hover:border-indigo-300 transition-all", children: s }, s)) })] })] });
+}
+function QuantityPreview({ el }) {
+  const [qty, setQty] = useState2(1);
+  return _jsxs7("div", { style: buildStyle(el), className: "flex items-center gap-3", children: [_jsx7("span", { className: "text-sm text-slate-700 font-medium", children: "\u062A\u0639\u062F\u0627\u062F:" }), _jsxs7("div", { className: "flex items-center border border-slate-300 rounded-lg overflow-hidden", children: [_jsx7("button", { onClick: () => setQty(Math.max(1, qty - 1)), className: "w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-700", children: "\u2212" }), _jsx7("span", { className: "w-10 text-center text-sm font-medium", children: qty }), _jsx7("button", { onClick: () => setQty(qty + 1), className: "w-8 h-8 flex items-center justify-center hover:bg-slate-100 text-slate-700", children: "+" })] })] });
+}
+function ActionButtonsPreview({ el, product, global: g }) {
+  const { hoverAnimation = "scale", showBuyNow = true, showWishlist = true, buttonStyle = "filled" } = el.settings;
+  const hoverClass = hoverAnimation === "scale" ? "hover:scale-105" : hoverAnimation === "lift" ? "hover:-translate-y-1 hover:shadow-lg" : hoverAnimation === "glow" ? "hover:shadow-lg hover:shadow-indigo-300" : hoverAnimation === "pulse" ? "hover:animate-pulse" : "";
+  const primaryStyle = buttonStyle === "outline" ? `border-2 border-current text-indigo-600 hover:bg-indigo-50` : buttonStyle === "ghost" ? `text-indigo-600 hover:bg-indigo-50` : `text-white`;
+  const primaryBg = buttonStyle === "filled" ? g.primaryColor : "transparent";
+  return _jsxs7("div", { style: buildStyle(el), className: "flex gap-2 flex-wrap", children: [_jsx7("button", { disabled: !product.inStock, className: `flex-1 py-3 px-6 rounded-xl font-bold text-sm transition-all duration-200 ${primaryStyle} ${hoverClass}
+          ${!product.inStock ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`, style: { backgroundColor: buttonStyle === "filled" ? primaryBg : void 0 }, children: product.inStock ? "\u{1F6D2} \u0627\u0641\u0632\u0648\u062F\u0646 \u0628\u0647 \u0633\u0628\u062F \u062E\u0631\u06CC\u062F" : "\u274C \u0646\u0627\u0645\u0648\u062C\u0648\u062F" }), showBuyNow && product.inStock && _jsx7("button", { className: `flex-1 py-3 px-6 rounded-xl font-bold text-sm border-2 transition-all duration-200 ${hoverClass}`, style: { borderColor: g.primaryColor, color: g.primaryColor }, children: "\u26A1 \u062E\u0631\u06CC\u062F \u0633\u0631\u06CC\u0639" }), showWishlist && _jsx7("button", { className: `py-3 px-3 rounded-xl border-2 border-slate-200 hover:border-red-300 hover:text-red-500 transition-all duration-200 ${hoverClass}`, children: "\u2764\uFE0F" })] });
+}
+function StockPreview({ el, product }) {
+  const { showLowStockWarning = true, lowStockThreshold = 5, showExactCount = true } = el.settings;
+  const isLow = product.stockCount <= lowStockThreshold && product.stockCount > 0;
+  if (!product.inStock) {
+    return _jsxs7("div", { style: buildStyle(el), className: "flex items-center gap-2 text-sm text-red-600 font-medium", children: [_jsx7("span", { children: "\u274C" }), _jsx7("span", { children: "\u0646\u0627\u0645\u0648\u062C\u0648\u062F \u2014 \u0627\u0637\u0644\u0627\u0639\u200C\u0631\u0633\u0627\u0646\u06CC \u0645\u0648\u062C\u0648\u062F\u06CC" })] });
+  }
+  return _jsx7("div", { style: buildStyle(el), className: "flex items-center gap-2 text-sm", children: isLow && showLowStockWarning ? _jsxs7("span", { className: "flex items-center gap-1 text-orange-600 font-medium", children: ["\u26A0\uFE0F ", showExactCount ? `\u0641\u0642\u0637 ${product.stockCount} \u0639\u062F\u062F \u0628\u0627\u0642\u06CC \u0645\u0627\u0646\u062F\u0647` : "\u0645\u0648\u062C\u0648\u062F\u06CC \u0645\u062D\u062F\u0648\u062F"] }) : _jsxs7("span", { className: "flex items-center gap-1 text-green-600 font-medium", children: ["\u2705 ", showExactCount ? `\u0645\u0648\u062C\u0648\u062F (${product.stockCount} \u0639\u062F\u062F)` : "\u0645\u0648\u062C\u0648\u062F \u062F\u0631 \u0627\u0646\u0628\u0627\u0631"] }) });
+}
+function CountdownPreview({ el }) {
+  const { showDays = true, showHours = true, showMinutes = true, showSeconds = true } = el.settings;
+  const [time, setTime] = useState2({ d: 2, h: 14, m: 33, s: 47 });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime((prev) => {
+        let { d, h, m, s } = prev;
+        s--;
+        if (s < 0) {
+          s = 59;
+          m--;
+        }
+        if (m < 0) {
+          m = 59;
+          h--;
+        }
+        if (h < 0) {
+          h = 23;
+          d--;
+        }
+        if (d < 0)
+          return prev;
+        return { d, h, m, s };
+      });
+    }, 1e3);
+    return () => clearInterval(timer);
+  }, []);
+  const units = [
+    { label: "\u0631\u0648\u0632", value: time.d, show: showDays },
+    { label: "\u0633\u0627\u0639\u062A", value: time.h, show: showHours },
+    { label: "\u062F\u0642\u06CC\u0642\u0647", value: time.m, show: showMinutes },
+    { label: "\u062B\u0627\u0646\u06CC\u0647", value: time.s, show: showSeconds }
+  ].filter((u) => u.show);
+  return _jsxs7("div", { style: buildStyle(el), className: "flex items-center gap-2", children: [_jsx7("span", { className: "text-sm text-red-600 font-medium", children: "\u23F1\uFE0F \u067E\u0627\u06CC\u0627\u0646 \u067E\u06CC\u0634\u0646\u0647\u0627\u062F:" }), _jsx7("div", { className: "flex gap-1", children: units.map((u, i) => _jsxs7(React4.Fragment, { children: [_jsxs7("div", { className: "bg-red-600 text-white rounded-lg px-2 py-1 text-center min-w-[36px]", children: [_jsx7("div", { className: "text-lg font-bold leading-none", children: String(u.value).padStart(2, "0") }), _jsx7("div", { className: "text-xs opacity-80", children: u.label })] }), i < units.length - 1 && _jsx7("span", { className: "text-red-600 font-bold self-center", children: ":" })] }, u.label)) })] });
+}
+function ShippingPreview({ el }) {
+  const { showFreeShipping = true, showEstimated = true, showTracker = false } = el.settings;
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-2 text-sm", children: [showFreeShipping && _jsxs7("div", { className: "flex items-center gap-2 text-green-700 bg-green-50 rounded-lg px-3 py-2", children: ["\u{1F69A} ", _jsx7("span", { className: "font-medium", children: "\u0627\u0631\u0633\u0627\u0644 \u0631\u0627\u06CC\u06AF\u0627\u0646" }), " \u0628\u0631\u0627\u06CC \u0627\u06CC\u0646 \u0633\u0641\u0627\u0631\u0634"] }), showEstimated && _jsxs7("div", { className: "flex items-center gap-2 text-slate-600", children: ["\u{1F4C5} ", _jsxs7("span", { children: ["\u062A\u062D\u0648\u06CC\u0644 \u062A\u062E\u0645\u06CC\u0646\u06CC: ", _jsx7("span", { className: "font-medium", children: "\u06F2\u2013\u06F3 \u0631\u0648\u0632 \u06A9\u0627\u0631\u06CC" })] })] }), showTracker && _jsxs7("div", { className: "bg-slate-50 rounded-lg p-2 text-xs text-slate-600", children: ["\u{1F50D} \u0631\u062F\u06CC\u0627\u0628\u06CC \u0645\u0631\u0633\u0648\u0644\u0647: ", _jsx7("span", { className: "font-mono text-indigo-600", children: "TRK-2024-001234" })] })] });
+}
+function TrustBadgesPreview({ el }) {
+  const badges = ["\u{1F512} \u062E\u0631\u06CC\u062F \u0627\u0645\u0646", "\u2705 \u0636\u0645\u0627\u0646\u062A \u0627\u0635\u0627\u0644\u062A", "\u{1F504} \u0628\u0627\u0632\u06AF\u0634\u062A \u06F7 \u0631\u0648\u0632\u0647", "\u{1F3A7} \u067E\u0634\u062A\u06CC\u0628\u0627\u0646\u06CC \u06F2\u06F4/\u06F7"];
+  return _jsx7("div", { style: buildStyle(el), className: "grid grid-cols-2 gap-2", children: badges.map((b) => _jsx7("div", { className: "flex items-center gap-1.5 bg-slate-50 rounded-lg px-2.5 py-2 text-xs text-slate-700 font-medium", children: b }, b)) });
+}
+function TabsPreview({ el }) {
+  const { tabsLayout = "horizontal", activeTab = "description" } = el.settings;
+  const [tab, setTab] = useState2(activeTab);
+  const tabs = [
+    { id: "description", label: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A" },
+    { id: "specs", label: "\u0645\u0634\u062E\u0635\u0627\u062A \u0641\u0646\u06CC" },
+    { id: "reviews", label: "\u0646\u0638\u0631\u0627\u062A" },
+    { id: "qa", label: "\u067E\u0631\u0633\u0634 \u0648 \u067E\u0627\u0633\u062E" }
+  ];
+  const content = {
+    description: "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u06A9\u0627\u0645\u0644 \u0645\u062D\u0635\u0648\u0644 \u0627\u06CC\u0646\u062C\u0627 \u0646\u0645\u0627\u06CC\u0634 \u062F\u0627\u062F\u0647 \u0645\u06CC\u200C\u0634\u0648\u062F. \u0627\u06CC\u0646 \u0628\u062E\u0634 \u0634\u0627\u0645\u0644 \u0648\u06CC\u0698\u06AF\u06CC\u200C\u0647\u0627\u060C \u0645\u0632\u0627\u06CC\u0627 \u0648 \u0646\u062D\u0648\u0647 \u0627\u0633\u062A\u0641\u0627\u062F\u0647 \u0627\u0632 \u0645\u062D\u0635\u0648\u0644 \u0627\u0633\u062A.",
+    specs: "\u062C\u062F\u0648\u0644 \u0645\u0634\u062E\u0635\u0627\u062A \u0641\u0646\u06CC: CPU\u060C RAM\u060C \u0628\u0627\u062A\u0631\u06CC\u060C \u062F\u0648\u0631\u0628\u06CC\u0646 \u0648 \u0633\u0627\u06CC\u0631 \u067E\u0627\u0631\u0627\u0645\u062A\u0631\u0647\u0627\u06CC \u062A\u06A9\u0646\u06CC\u06A9\u0627\u0644",
+    reviews: "\u06F2\u06F8\u06F4 \u0646\u0638\u0631 \u06A9\u0627\u0631\u0628\u0631\u0627\u0646 \u062F\u0631 \u0627\u06CC\u0646 \u0628\u062E\u0634 \u0646\u0645\u0627\u06CC\u0634 \u062F\u0627\u062F\u0647 \u0645\u06CC\u200C\u0634\u0648\u062F \u0628\u0627 \u0627\u0645\u06A9\u0627\u0646 \u0641\u06CC\u0644\u062A\u0631 \u0648 \u0645\u0631\u062A\u0628\u200C\u0633\u0627\u0632\u06CC.",
+    qa: "\u0633\u0648\u0627\u0644\u0627\u062A \u0645\u062A\u062F\u0627\u0648\u0644 \u06A9\u0627\u0631\u0628\u0631\u0627\u0646 \u0648 \u067E\u0627\u0633\u062E \u0641\u0631\u0648\u0634\u0646\u062F\u0647 \u062F\u0631 \u0627\u06CC\u0646 \u0628\u062E\u0634 \u0627\u0633\u062A."
+  };
+  if (tabsLayout === "accordion") {
+    return _jsx7("div", { style: buildStyle(el), className: "border border-slate-200 rounded-xl overflow-hidden", children: tabs.map((t) => _jsxs7("div", { className: "border-b border-slate-200 last:border-0", children: [_jsxs7("button", { onClick: () => setTab(tab === t.id ? "" : t.id), className: "w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors", children: [_jsx7("span", { children: t.label }), _jsx7("span", { className: "text-slate-400 transition-transform", style: { transform: tab === t.id ? "rotate(90deg)" : "none" }, children: "\u203A" })] }), tab === t.id && _jsx7("div", { className: "px-4 pb-3 text-sm text-slate-600 bg-slate-50", children: content[t.id] })] }, t.id)) });
+  }
+  if (tabsLayout === "vertical") {
+    return _jsxs7("div", { style: buildStyle(el), className: "flex gap-0 border border-slate-200 rounded-xl overflow-hidden", children: [_jsx7("div", { className: "w-28 bg-slate-50 border-l border-slate-200 flex-shrink-0", children: tabs.map((t) => _jsx7("button", { onClick: () => setTab(t.id), className: `w-full text-right px-3 py-3 text-xs font-medium transition-colors border-r-2
+                ${tab === t.id ? "border-indigo-500 bg-white text-indigo-600" : "border-transparent text-slate-600 hover:bg-white"}`, children: t.label }, t.id)) }), _jsx7("div", { className: "flex-1 p-4 text-sm text-slate-600", children: content[tab] || "" })] });
+  }
+  return _jsxs7("div", { style: buildStyle(el), children: [_jsx7("div", { className: "flex border-b border-slate-200 overflow-x-auto", children: tabs.map((t) => _jsx7("button", { onClick: () => setTab(t.id), className: `px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors border-b-2
+              ${tab === t.id ? "border-indigo-500 text-indigo-600" : "border-transparent text-slate-500 hover:text-slate-700"}`, children: t.label }, t.id)) }), _jsx7("div", { className: "p-4 text-sm text-slate-600", children: content[tab] || "" })] });
+}
+function ReviewsPreview({ el }) {
+  return _jsx7("div", { style: buildStyle(el), className: "space-y-3", children: [{ user: "\u0639\u0644\u06CC \u0645.", rating: 5, text: "\u062E\u0631\u06CC\u062F \u0639\u0627\u0644\u06CC\u060C \u06A9\u06CC\u0641\u06CC\u062A \u0628\u06CC\u200C\u0646\u0638\u06CC\u0631!" }, { user: "\u0633\u0627\u0631\u0627 \u06A9.", rating: 4, text: "\u0645\u062D\u0635\u0648\u0644 \u062E\u0648\u0628\u060C \u0627\u0631\u0633\u0627\u0644 \u06A9\u0645\u06CC \u0637\u0648\u0644\u0627\u0646\u06CC \u0628\u0648\u062F." }].map((r, i) => _jsxs7("div", { className: "bg-white border border-slate-200 rounded-xl p-3", children: [_jsxs7("div", { className: "flex items-center justify-between mb-1", children: [_jsx7("span", { className: "font-medium text-sm text-slate-800", children: r.user }), _jsx7("span", { className: "text-yellow-400 text-xs", children: "\u2605".repeat(r.rating) })] }), _jsx7("p", { className: "text-sm text-slate-600", children: r.text })] }, i)) });
+}
+function QAPreview({ el }) {
+  return _jsx7("div", { style: buildStyle(el), className: "space-y-3", children: [{ q: "\u0622\u06CC\u0627 \u0627\u06CC\u0646 \u0645\u062D\u0635\u0648\u0644 \u0636\u0645\u0627\u0646\u062A \u062F\u0627\u0631\u062F\u061F", a: "\u0628\u0644\u0647\u060C \u06F1\u06F8 \u0645\u0627\u0647 \u06AF\u0627\u0631\u0627\u0646\u062A\u06CC \u0634\u0631\u06A9\u062A\u06CC \u062F\u0627\u0631\u062F." }, { q: "\u0627\u0631\u0633\u0627\u0644 \u0628\u0647 \u0634\u0647\u0631\u0633\u062A\u0627\u0646 \u0627\u0646\u062C\u0627\u0645 \u0645\u06CC\u200C\u0634\u0648\u062F\u061F", a: "\u0628\u0644\u0647\u060C \u0628\u0647 \u0633\u0631\u0627\u0633\u0631 \u06A9\u0634\u0648\u0631 \u0627\u0631\u0633\u0627\u0644 \u0645\u06CC\u200C\u06A9\u0646\u06CC\u0645." }].map((qa, i) => _jsxs7("div", { className: "bg-white border border-slate-200 rounded-xl p-3 text-sm", children: [_jsxs7("div", { className: "font-medium text-slate-800 mb-1", children: ["\u2753 ", qa.q] }), _jsxs7("div", { className: "text-slate-600 pr-4", children: ["\u{1F4AC} ", qa.a] })] }, i)) });
+}
+function SpecsTablePreview({ el }) {
+  const specs = [
+    ["\u067E\u0631\u062F\u0627\u0632\u0646\u062F\u0647", "Snapdragon 8 Gen 3"],
+    ["\u0631\u0645", "\u06F1\u06F2 \u06AF\u06CC\u06AF\u0627\u0628\u0627\u06CC\u062A"],
+    ["\u062D\u0627\u0641\u0638\u0647 \u062F\u0627\u062E\u0644\u06CC", "\u06F2\u06F5\u06F6 \u06AF\u06CC\u06AF\u0627\u0628\u0627\u06CC\u062A"],
+    ["\u0635\u0641\u062D\u0647 \u0646\u0645\u0627\u06CC\u0634", "\u06F6.\u06F8 \u0627\u06CC\u0646\u0686 AMOLED"],
+    ["\u0628\u0627\u062A\u0631\u06CC", "\u06F5\u06F0\u06F0\u06F0 \u0645\u06CC\u0644\u06CC\u200C\u0622\u0645\u067E\u0631 \u0633\u0627\u0639\u062A"],
+    ["\u0633\u06CC\u0633\u062A\u0645\u200C\u0639\u0627\u0645\u0644", "Android 14"]
+  ];
+  return _jsx7("div", { style: buildStyle(el), className: "border border-slate-200 rounded-xl overflow-hidden", children: _jsx7("table", { className: "w-full text-sm", children: _jsx7("tbody", { children: specs.map(([k, v], i) => _jsxs7("tr", { className: i % 2 === 0 ? "bg-slate-50" : "bg-white", children: [_jsx7("td", { className: "px-3 py-2 text-slate-500 font-medium border-l border-slate-200 w-2/5", children: k }), _jsx7("td", { className: "px-3 py-2 text-slate-800", children: v })] }, k)) }) }) });
+}
+function BundlePreview({ el, product, global: _g }) {
+  const { bundleLayout = "horizontal", bundleDiscount = 10, showBundleTotal = true } = el.settings;
+  const bundleItems = [
+    { name: product.name.slice(0, 18) + "\u2026", price: product.price, emoji: "\u{1F4F1}" },
+    { name: "\u06A9\u06CC\u0641 \u0645\u062D\u0627\u0641\u0638", price: 45e4, emoji: "\u{1F392}" },
+    { name: "\u0634\u0627\u0631\u0698\u0631 \u0628\u06CC\u200C\u0633\u06CC\u0645", price: 78e4, emoji: "\u{1F50B}" }
+  ];
+  const total = bundleItems.reduce((s, i) => s + i.price, 0);
+  const discounted = Math.round(total * (1 - bundleDiscount / 100));
+  if (bundleLayout === "vertical") {
+    return _jsxs7("div", { style: buildStyle(el), className: "border border-indigo-200 rounded-xl p-4 bg-indigo-50/30", children: [_jsxs7("div", { className: "text-sm font-bold text-slate-800 mb-3", children: ["\u{1F381} \u062E\u0631\u06CC\u062F \u0645\u062C\u0645\u0648\u0639\u0647 \u0628\u0627 ", bundleDiscount, "\u066A \u062A\u062E\u0641\u06CC\u0641"] }), _jsx7("div", { className: "space-y-2", children: bundleItems.map((item, i) => _jsxs7("div", { className: "flex items-center gap-2 bg-white rounded-lg p-2 text-sm", children: [_jsx7("span", { className: "text-xl", children: item.emoji }), _jsx7("span", { className: "flex-1 text-slate-700", children: item.name }), _jsx7("span", { className: "text-slate-500 text-xs", children: formatPrice(item.price) })] }, i)) }), showBundleTotal && _jsxs7("div", { className: "mt-3 pt-3 border-t border-indigo-200 text-sm font-bold text-indigo-700", children: ["\u0645\u062C\u0645\u0648\u0639: ", formatPrice(discounted), " ", _jsx7("span", { className: "line-through text-slate-400 font-normal mr-2", children: formatPrice(total) })] })] });
+  }
+  return _jsxs7("div", { style: buildStyle(el), className: "border border-indigo-200 rounded-xl p-4 bg-indigo-50/30", children: [_jsxs7("div", { className: "text-sm font-bold text-slate-800 mb-3", children: ["\u{1F381} \u062E\u0631\u06CC\u062F \u0645\u062C\u0645\u0648\u0639\u0647 \u0628\u0627 ", bundleDiscount, "\u066A \u062A\u062E\u0641\u06CC\u0641"] }), _jsx7("div", { className: "flex gap-2 items-center flex-wrap", children: bundleItems.map((item, i) => _jsxs7(React4.Fragment, { children: [_jsxs7("div", { className: "flex flex-col items-center text-center bg-white rounded-xl p-3 border border-indigo-100 min-w-[80px]", children: [_jsx7("span", { className: "text-3xl", children: item.emoji }), _jsx7("span", { className: "text-xs text-slate-700 mt-1 leading-tight", children: item.name }), _jsx7("span", { className: "text-xs text-slate-400 mt-0.5", children: formatPrice(item.price) })] }), i < bundleItems.length - 1 && _jsx7("span", { className: "text-indigo-400 text-xl", children: "+" })] }, i)) }), showBundleTotal && _jsxs7("div", { className: "mt-3 pt-3 border-t border-indigo-200 text-sm font-bold text-indigo-700", children: ["\u0645\u062C\u0645\u0648\u0639: ", formatPrice(discounted), " ", _jsx7("span", { className: "line-through text-slate-400 font-normal mr-2", children: formatPrice(total) })] })] });
+}
+function RelatedProductsPreview({ el }) {
+  const { displayType = "grid", maxItems = 4 } = el.settings;
+  const items = Array.from({ length: Math.min(maxItems, 6) }, (_, i) => ({
+    name: `\u0645\u062D\u0635\u0648\u0644 \u0645\u0631\u062A\u0628\u0637 ${i + 1}`,
+    price: 85e5 + i * 12e5,
+    emoji: ["\u{1F4F1}", "\u{1F4BB}", "\u{1F3A7}", "\u231A", "\u{1F4F7}", "\u{1F3AE}"][i]
+  }));
+  if (displayType === "slider") {
+    return _jsxs7("div", { style: buildStyle(el), children: [_jsx7("div", { className: "text-sm font-bold text-slate-800 mb-2", children: "\u0645\u062D\u0635\u0648\u0644\u0627\u062A \u0645\u0631\u062A\u0628\u0637" }), _jsx7("div", { className: "flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory", children: items.map((p, i) => _jsxs7("div", { className: "flex-shrink-0 snap-start w-36 bg-white border border-slate-200 rounded-xl p-3 text-center shadow-sm", children: [_jsx7("div", { className: "text-3xl mb-2", children: p.emoji }), _jsx7("div", { className: "text-xs text-slate-700 font-medium leading-tight", children: p.name }), _jsx7("div", { className: "text-xs text-indigo-600 font-bold mt-1", children: formatPrice(p.price) })] }, i)) })] });
+  }
+  return _jsxs7("div", { style: buildStyle(el), children: [_jsx7("div", { className: "text-sm font-bold text-slate-800 mb-2", children: "\u0645\u062D\u0635\u0648\u0644\u0627\u062A \u0645\u0631\u062A\u0628\u0637" }), _jsx7("div", { className: "grid grid-cols-2 gap-2", children: items.slice(0, 4).map((p, i) => _jsxs7("div", { className: "bg-white border border-slate-200 rounded-xl p-3 text-center shadow-sm", children: [_jsx7("div", { className: "text-3xl mb-1", children: p.emoji }), _jsx7("div", { className: "text-xs text-slate-700 font-medium leading-tight", children: p.name }), _jsx7("div", { className: "text-xs text-indigo-600 font-bold mt-1", children: formatPrice(p.price) })] }, i)) })] });
+}
+function RecentlyViewedPreview({ el }) {
+  const { displayType = "slider", maxItems = 6 } = el.settings;
+  const items = Array.from({ length: Math.min(maxItems, 6) }, (_, i) => ({
+    name: `\u0645\u062D\u0635\u0648\u0644 ${i + 1}`,
+    price: 5e6 + i * 8e5,
+    emoji: ["\u231A", "\u{1F4F7}", "\u{1F3AE}", "\u{1F4BB}", "\u{1F4F1}", "\u{1F3A7}"][i]
+  }));
+  if (displayType === "grid") {
+    return _jsxs7("div", { style: buildStyle(el), children: [_jsx7("div", { className: "text-sm font-bold text-slate-800 mb-2", children: "\u0627\u062E\u06CC\u0631\u0627\u064B \u0645\u0634\u0627\u0647\u062F\u0647\u200C\u0634\u062F\u0647" }), _jsx7("div", { className: "grid grid-cols-3 gap-2", children: items.map((p, i) => _jsxs7("div", { className: "bg-white border border-slate-200 rounded-xl p-2 text-center shadow-sm", children: [_jsx7("div", { className: "text-2xl mb-1", children: p.emoji }), _jsx7("div", { className: "text-xs text-slate-700 font-medium truncate", children: p.name }), _jsx7("div", { className: "text-xs text-indigo-600 font-bold", children: formatPrice(p.price) })] }, i)) })] });
+  }
+  return _jsxs7("div", { style: buildStyle(el), children: [_jsx7("div", { className: "text-sm font-bold text-slate-800 mb-2", children: "\u0627\u062E\u06CC\u0631\u0627\u064B \u0645\u0634\u0627\u0647\u062F\u0647\u200C\u0634\u062F\u0647" }), _jsx7("div", { className: "flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory", children: items.map((p, i) => _jsxs7("div", { className: "flex-shrink-0 snap-start w-28 bg-white border border-slate-200 rounded-xl p-2 text-center shadow-sm", children: [_jsx7("div", { className: "text-2xl mb-1", children: p.emoji }), _jsx7("div", { className: "text-xs text-slate-700 font-medium truncate", children: p.name }), _jsx7("div", { className: "text-xs text-indigo-600 font-bold", children: formatPrice(p.price) })] }, i)) })] });
+}
+function SeoInfoPreview({ el }) {
+  const { showMetaTitle = true, showMetaDescription = true, metaDescriptionText = "\u062A\u0648\u0636\u06CC\u062D\u0627\u062A \u0645\u062A\u0627 \u0631\u0627 \u0627\u06CC\u0646\u062C\u0627 \u0648\u0627\u0631\u062F \u06A9\u0646\u06CC\u062F...", showSchema = true, showOpenGraph = true, showCanonical = true } = el.settings;
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-2 text-xs", children: [_jsx7("div", { className: "font-bold text-slate-700 text-sm mb-2", children: "\u{1F50D} \u0627\u0637\u0644\u0627\u0639\u0627\u062A \u0633\u0626\u0648" }), showMetaTitle && _jsxs7("div", { className: "bg-blue-50 border border-blue-200 rounded-lg p-2", children: [_jsx7("div", { className: "text-blue-600 font-medium", children: "Meta Title" }), _jsx7("div", { className: "text-slate-700 mt-0.5", children: "\u062E\u0631\u06CC\u062F \u06AF\u0648\u0634\u06CC \u0633\u0627\u0645\u0633\u0648\u0646\u06AF Galaxy S24 Ultra | \u0641\u0631\u0648\u0634\u06AF\u0627\u0647 \u0627\u06CC\u0646\u062A\u0631\u0646\u062A\u06CC" })] }), showMetaDescription && _jsxs7("div", { className: "bg-green-50 border border-green-200 rounded-lg p-2", children: [_jsx7("div", { className: "text-green-600 font-medium", children: "Meta Description" }), _jsx7("div", { className: "text-slate-700 mt-0.5 italic", children: metaDescriptionText })] }), _jsxs7("div", { className: "flex gap-2 flex-wrap mt-1", children: [showSchema && _jsx7("span", { className: "bg-purple-100 text-purple-700 rounded px-2 py-0.5", children: "Schema.org \u2713" }), showOpenGraph && _jsx7("span", { className: "bg-blue-100 text-blue-700 rounded px-2 py-0.5", children: "Open Graph \u2713" }), showCanonical && _jsx7("span", { className: "bg-slate-100 text-slate-700 rounded px-2 py-0.5", children: "Canonical \u2713" })] })] });
+}
+function SocialSharePreview({ el }) {
+  const { showFacebook = true, showTwitter = true, showWhatsapp = true, showTelegram = true, showCopyLink = true } = el.settings;
+  const buttons = [
+    { show: showFacebook, label: "Facebook", icon: "\u{1F4D8}", color: "bg-blue-600" },
+    { show: showTwitter, label: "X/Twitter", icon: "\u{1F426}", color: "bg-slate-800" },
+    { show: showWhatsapp, label: "WhatsApp", icon: "\u{1F4AC}", color: "bg-green-500" },
+    { show: showTelegram, label: "Telegram", icon: "\u2708\uFE0F", color: "bg-blue-400" },
+    { show: showCopyLink, label: "\u06A9\u067E\u06CC \u0644\u06CC\u0646\u06A9", icon: "\u{1F517}", color: "bg-slate-500" }
+  ].filter((b) => b.show);
+  return _jsxs7("div", { style: buildStyle(el), className: "flex gap-2 flex-wrap items-center", children: [_jsx7("span", { className: "text-sm text-slate-600", children: "\u0627\u0634\u062A\u0631\u0627\u06A9\u200C\u06AF\u0630\u0627\u0631\u06CC:" }), buttons.map((b) => _jsxs7("button", { title: b.label, className: `${b.color} text-white rounded-lg px-3 py-1.5 text-xs flex items-center gap-1 hover:opacity-80 transition-opacity`, children: [_jsx7("span", { children: b.icon }), _jsx7("span", { children: b.label })] }, b.label))] });
+}
+function WishlistPreview({ el, global: _g }) {
+  const [wished, setWished] = useState2(false);
+  return _jsx7("div", { style: buildStyle(el), children: _jsxs7("button", { onClick: () => setWished(!wished), className: "flex items-center gap-2 border border-slate-200 rounded-xl px-4 py-2.5 text-sm hover:border-red-300 transition-colors", style: { color: wished ? "#ef4444" : void 0 }, children: [_jsx7("span", { children: wished ? "\u2764\uFE0F" : "\u{1F90D}" }), _jsx7("span", { children: wished ? "\u062F\u0631 \u0644\u06CC\u0633\u062A \u0639\u0644\u0627\u0642\u0647\u200C\u0645\u0646\u062F\u06CC" : "\u0627\u0641\u0632\u0648\u062F\u0646 \u0628\u0647 \u0639\u0644\u0627\u0642\u0647\u200C\u0645\u0646\u062F\u06CC" })] }) });
+}
+function ComparePreview({ el }) {
+  return _jsx7("div", { style: buildStyle(el), children: _jsx7("button", { className: "flex items-center gap-2 border border-slate-200 rounded-xl px-4 py-2.5 text-sm hover:border-blue-300 transition-colors text-slate-700", children: "\u2696\uFE0F \u0627\u0641\u0632\u0648\u062F\u0646 \u0628\u0647 \u0645\u0642\u0627\u06CC\u0633\u0647" }) });
+}
+function ProFeaturesPreview({ el }) {
+  const { showQuickContact = true, showVirtualTryOn = false, showAiRecommend = true, showCustomOrder = false, showBranchStock = false } = el.settings;
+  const features = [
+    { show: showQuickContact, icon: "\u{1F4DE}", label: "\u062A\u0645\u0627\u0633 \u0633\u0631\u06CC\u0639 \u0628\u0627 \u0645\u0634\u0627\u0648\u0631 \u0641\u0631\u0648\u0634", color: "bg-green-50 border-green-200 text-green-700" },
+    { show: showVirtualTryOn, icon: "\u{1F97D}", label: "\u0627\u0645\u062A\u062D\u0627\u0646 \u0645\u062C\u0627\u0632\u06CC (Virtual Try-On)", color: "bg-purple-50 border-purple-200 text-purple-700" },
+    { show: showAiRecommend, icon: "\u{1F916}", label: "\u067E\u06CC\u0634\u0646\u0647\u0627\u062F \u0647\u0648\u0634\u0645\u0646\u062F \u0647\u0648\u0634 \u0645\u0635\u0646\u0648\u0639\u06CC", color: "bg-blue-50 border-blue-200 text-blue-700" },
+    { show: showCustomOrder, icon: "\u{1F3A8}", label: "\u0633\u0641\u0627\u0631\u0634 \u0633\u0641\u0627\u0631\u0634\u06CC / \u06A9\u0627\u0633\u062A\u0648\u0645", color: "bg-orange-50 border-orange-200 text-orange-700" },
+    { show: showBranchStock, icon: "\u{1F3EA}", label: "\u0645\u0648\u062C\u0648\u062F\u06CC \u0634\u0639\u0628\u0647\u200C\u0647\u0627\u06CC \u0641\u0631\u0648\u0634\u06AF\u0627\u0647", color: "bg-slate-50 border-slate-200 text-slate-700" }
+  ].filter((f) => f.show);
+  if (features.length === 0) {
+    return _jsx7("div", { style: buildStyle(el), className: "text-sm text-slate-400 italic p-3 border border-dashed border-slate-200 rounded-xl text-center", children: "\u0647\u06CC\u0686 \u0627\u0645\u06A9\u0627\u0646 \u062D\u0631\u0641\u0647\u200C\u0627\u06CC \u0641\u0639\u0627\u0644 \u0646\u06CC\u0633\u062A" });
+  }
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-2", children: [_jsx7("div", { className: "text-sm font-bold text-slate-700 mb-1", children: "\u26A1 \u0627\u0645\u06A9\u0627\u0646\u0627\u062A \u062D\u0631\u0641\u0647\u200C\u0627\u06CC" }), features.map((f) => _jsxs7("div", { className: `flex items-center gap-2 border rounded-xl px-3 py-2 text-sm ${f.color}`, children: [_jsx7("span", { children: f.icon }), _jsx7("span", { children: f.label })] }, f.label))] });
+}
+function StorePoliciesPreview({ el }) {
+  const { showReturn = true, showWarranty = true, showPayment = true } = el.settings;
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-2 text-sm", children: [showReturn && _jsxs7("div", { className: "flex items-center gap-2 text-slate-700", children: ["\u{1F504} ", _jsxs7("span", { children: [_jsx7("b", { children: "\u0628\u0627\u0632\u06AF\u0634\u062A \u06A9\u0627\u0644\u0627:" }), " \u06F7 \u0631\u0648\u0632 \u0636\u0645\u0627\u0646\u062A \u0628\u0627\u0632\u06AF\u0634\u062A \u0628\u062F\u0648\u0646 \u0642\u06CC\u062F \u0648 \u0634\u0631\u0637"] })] }), showWarranty && _jsxs7("div", { className: "flex items-center gap-2 text-slate-700", children: ["\u{1F6E1}\uFE0F ", _jsxs7("span", { children: [_jsx7("b", { children: "\u06AF\u0627\u0631\u0627\u0646\u062A\u06CC:" }), " \u06F1\u06F8 \u0645\u0627\u0647 \u06AF\u0627\u0631\u0627\u0646\u062A\u06CC \u062A\u0639\u0648\u06CC\u0636 \u0648 \u062A\u0639\u0645\u06CC\u0631"] })] }), showPayment && _jsxs7("div", { className: "flex items-center gap-2 text-slate-700", children: ["\u{1F4B3} ", _jsxs7("span", { children: [_jsx7("b", { children: "\u067E\u0631\u062F\u0627\u062E\u062A:" }), " \u06A9\u0627\u0631\u062A \u0628\u0627\u0646\u06A9\u06CC\u060C \u06A9\u06CC\u0641 \u067E\u0648\u0644\u060C \u0627\u0642\u0633\u0627\u0637"] })] })] });
+}
+function StickyBarPreview({ el, product, global: g }) {
+  const { showStickyPrice = true, showStickyCart = true, showStickyTitle = true } = el.settings;
+  return _jsxs7("div", { style: buildStyle(el), className: "bg-white border border-slate-200 rounded-xl shadow-lg px-4 py-2 flex items-center gap-3", children: [_jsx7("div", { className: "text-lg", children: "\u{1F4CC}" }), _jsxs7("div", { className: "flex-1 min-w-0", children: [showStickyTitle && _jsxs7("div", { className: "text-xs font-medium text-slate-800 truncate", children: [product.name.slice(0, 24), "\u2026"] }), showStickyPrice && _jsx7("div", { className: "text-sm font-bold text-red-600", children: formatPrice(product.price) })] }), showStickyCart && _jsx7("button", { className: "text-white text-xs px-3 py-1.5 rounded-lg font-medium", style: { backgroundColor: g.primaryColor }, children: "\u{1F6D2} \u062E\u0631\u06CC\u062F" })] });
+}
+function PromotionalBannerPreview({ el, global: g }) {
+  const { bannerText = "\u0627\u0631\u0633\u0627\u0644 \u0631\u0627\u06CC\u06AF\u0627\u0646 \u0628\u0631\u0627\u06CC \u062E\u0631\u06CC\u062F \u0628\u0627\u0644\u0627\u06CC \u06F5\u06F0\u06F0 \u0647\u0632\u0627\u0631 \u062A\u0648\u0645\u0627\u0646!", showBannerIcon = true } = el.settings;
+  return _jsxs7("div", { style: { ...buildStyle(el), backgroundColor: g.secondaryColor || "#f59e0b" }, className: "rounded-xl px-4 py-2.5 flex items-center gap-2 text-white text-sm font-medium", children: [showBannerIcon && _jsx7("span", { children: "\u{1F3F7}\uFE0F" }), _jsx7("span", { children: bannerText })] });
+}
+function SellersPreview({ el }) {
+  const sellers = [
+    { name: "\u0641\u0631\u0648\u0634\u06AF\u0627\u0647 \u0631\u0633\u0645\u06CC \u0628\u0631\u0646\u062F", price: 52e6, rating: 4.8, badge: "\u2705" },
+    { name: "\u062F\u06CC\u062C\u06CC\u200C\u067E\u0644\u0627\u0633", price: 515e5, rating: 4.6, badge: "\u{1F948}" },
+    { name: "\u0627\u0644\u0645\u0627\u0633 \u0645\u0627\u0631\u06A9\u062A", price: 508e5, rating: 4.3, badge: "\u{1F949}" }
+  ];
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-2", children: [_jsx7("div", { className: "text-sm font-bold text-slate-700 mb-1", children: "\u{1F3EA} \u0641\u0631\u0648\u0634\u0646\u062F\u06AF\u0627\u0646" }), sellers.map((s, i) => _jsxs7("div", { className: "flex items-center justify-between bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm", children: [_jsxs7("div", { className: "flex items-center gap-2", children: [_jsx7("span", { children: s.badge }), _jsxs7("div", { children: [_jsx7("div", { className: "font-medium text-slate-800", children: s.name }), _jsxs7("div", { className: "text-xs text-slate-500", children: ["\u2B50 ", s.rating] })] })] }), _jsx7("div", { className: "text-indigo-600 font-bold text-sm", children: formatPrice(s.price) })] }, i))] });
+}
+function VideoGalleryPreview({ el }) {
+  return _jsxs7("div", { style: buildStyle(el), className: "space-y-2", children: [_jsx7("div", { className: "text-sm font-bold text-slate-700 mb-1", children: "\u{1F3AC} \u06AF\u0627\u0644\u0631\u06CC \u0648\u06CC\u062F\u06CC\u0648" }), _jsx7("div", { className: "bg-slate-900 rounded-xl aspect-video flex items-center justify-center text-white", children: _jsxs7("div", { className: "text-center", children: [_jsx7("div", { className: "text-4xl mb-2", children: "\u25B6\uFE0F" }), _jsx7("div", { className: "text-sm opacity-70", children: "\u0648\u06CC\u062F\u06CC\u0648 \u0645\u0639\u0631\u0641\u06CC \u0645\u062D\u0635\u0648\u0644" })] }) }), _jsx7("div", { className: "flex gap-2", children: ["\u{1F3AC}", "\u{1F4F9}", "\u{1F3A5}"].map((v, i) => _jsx7("div", { className: "w-16 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-white text-xl cursor-pointer hover:bg-slate-700 transition-colors", children: v }, i)) })] });
+}
+function ElementRenderer({ el, product, global: g }) {
+  const props = { el, product, global: g };
+  const cv = el.settings.conditionalVisibility;
+  if (cv?.enabled) {
+    if (cv.condition === "has-discount" && product.discount === 0)
+      return null;
+    if (cv.condition === "out-of-stock" && product.inStock)
+      return null;
+    if (cv.condition === "low-stock" && product.stockCount > 5)
+      return null;
+  }
+  switch (el.type) {
+    case "breadcrumb":
+      return _jsx7(BreadcrumbPreview, { ...props });
+    case "gallery":
+      return _jsx7(GalleryPreview, { ...props });
+    case "title":
+      return _jsx7(TitlePreview, { ...props });
+    case "price":
+      return _jsx7(PricePreview, { ...props });
+    case "rating":
+      return _jsx7(RatingPreview, { ...props });
+    case "short-description":
+      return _jsx7(ShortDescriptionPreview, { ...props });
+    case "short-features":
+      return _jsx7(ShortFeaturesPreview, { ...props });
+    case "variations":
+      return _jsx7(VariationsPreview, { ...props });
+    case "quantity":
+      return _jsx7(QuantityPreview, { ...props });
+    case "action-buttons":
+      return _jsx7(ActionButtonsPreview, { ...props });
+    case "stock":
+      return _jsx7(StockPreview, { ...props });
+    case "countdown":
+      return _jsx7(CountdownPreview, { ...props });
+    case "shipping":
+      return _jsx7(ShippingPreview, { ...props });
+    case "trust-badges":
+      return _jsx7(TrustBadgesPreview, { ...props });
+    case "tabs":
+      return _jsx7(TabsPreview, { ...props });
+    case "reviews":
+      return _jsx7(ReviewsPreview, { ...props });
+    case "qa":
+      return _jsx7(QAPreview, { ...props });
+    case "specs-table":
+      return _jsx7(SpecsTablePreview, { ...props });
+    case "bundle":
+      return _jsx7(BundlePreview, { ...props });
+    case "related-products":
+      return _jsx7(RelatedProductsPreview, { ...props });
+    case "recently-viewed":
+      return _jsx7(RecentlyViewedPreview, { ...props });
+    case "seo-info":
+      return _jsx7(SeoInfoPreview, { ...props });
+    case "social-share":
+      return _jsx7(SocialSharePreview, { ...props });
+    case "wishlist":
+      return _jsx7(WishlistPreview, { ...props });
+    case "compare":
+      return _jsx7(ComparePreview, { ...props });
+    case "pro-features":
+      return _jsx7(ProFeaturesPreview, { ...props });
+    case "store-policies":
+      return _jsx7(StorePoliciesPreview, { ...props });
+    case "sticky-bar":
+      return _jsx7(StickyBarPreview, { ...props });
+    case "promotional-banner":
+      return _jsx7(PromotionalBannerPreview, { ...props });
+    case "sellers":
+      return _jsx7(SellersPreview, { ...props });
+    case "video-gallery":
+      return _jsx7(VideoGalleryPreview, { ...props });
+    default:
+      return null;
+  }
+}
+function PreviewElements({ elements, globalSettings, selectedId, scenario, onSelect }) {
+  const product = SCENARIOS[scenario];
+  return _jsx7("div", { className: "space-y-0", children: elements.filter((el) => el.visible).map((el) => _jsxs7("div", { onClick: () => onSelect(el.id), className: `relative group cursor-pointer transition-all duration-150
+            ${selectedId === el.id ? "ring-2 ring-indigo-500 ring-offset-1 rounded-xl" : "hover:ring-1 hover:ring-indigo-300 hover:ring-offset-1 rounded-xl"}`, children: [selectedId === el.id && _jsx7("div", { className: "absolute -top-2 -right-2 z-10 bg-indigo-500 text-white text-xs px-2 py-0.5 rounded-full font-medium shadow", children: el.label }), _jsx7(ElementRenderer, { el, product, global: globalSettings })] }, el.id)) });
+}
+
+// app/components/PreviewPanel.js
+var SCENARIOS2 = [
+  { value: "default", label: "\u067E\u06CC\u0634\u200C\u0641\u0631\u0636 (\u06AF\u0648\u0634\u06CC)", emoji: "\u{1F4F1}" },
+  { value: "no-discount", label: "\u0628\u062F\u0648\u0646 \u062A\u062E\u0641\u06CC\u0641", emoji: "\u{1F3F7}\uFE0F" },
+  { value: "out-of-stock", label: "\u0646\u0627\u0645\u0648\u062C\u0648\u062F", emoji: "\u274C" },
+  { value: "no-gallery", label: "\u0628\u062F\u0648\u0646 \u06AF\u0627\u0644\u0631\u06CC", emoji: "\u{1F6AB}" },
+  { value: "complex-variations", label: "\u062A\u0646\u0648\u0639 \u067E\u06CC\u0686\u06CC\u062F\u0647", emoji: "\u{1F3A8}" }
+];
+function PreviewPanel() {
+  const { elements, globalSettings, selectedElementId, previewDevice, previewScenario, setPreviewDevice, setPreviewScenario, selectElement } = useStore(useShallow2((s) => ({
+    elements: s.elements,
+    globalSettings: s.globalSettings,
+    selectedElementId: s.selectedElementId,
+    previewDevice: s.previewDevice,
+    previewScenario: s.previewScenario,
+    setPreviewDevice: s.setPreviewDevice,
+    setPreviewScenario: s.setPreviewScenario,
+    selectElement: s.selectElement
+  })));
+  const deviceWidths = {
+    mobile: "max-w-[375px]",
+    tablet: "max-w-[768px]",
+    desktop: "max-w-full"
+  };
+  const deviceLabels = {
+    mobile: { icon: "\u{1F4F1}", label: "\u0645\u0648\u0628\u0627\u06CC\u0644" },
+    tablet: { icon: "\u{1F4DF}", label: "\u062A\u0628\u0644\u062A" },
+    desktop: { icon: "\u{1F5A5}\uFE0F", label: "\u062F\u0633\u06A9\u062A\u0627\u067E" }
+  };
+  return _jsxs8("div", { className: "flex flex-col h-full", children: [_jsxs8("div", { className: "flex items-center gap-2 px-4 py-2.5 border-b border-slate-200 bg-white flex-shrink-0 flex-wrap", children: [_jsx8("div", { className: "flex bg-slate-100 rounded-xl p-1 gap-0.5", children: ["mobile", "tablet", "desktop"].map((d) => _jsxs8("button", { onClick: () => setPreviewDevice(d), className: `flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all
+                ${previewDevice === d ? "bg-white shadow text-indigo-600" : "text-slate-500 hover:text-slate-700"}`, title: deviceLabels[d].label, "aria-label": deviceLabels[d].label, children: [_jsx8("span", { children: deviceLabels[d].icon }), _jsx8("span", { className: "hidden sm:inline", children: deviceLabels[d].label })] }, d)) }), _jsxs8("div", { className: "flex items-center gap-1.5 flex-1 min-w-0", children: [_jsx8("span", { className: "text-xs text-slate-500 flex-shrink-0", children: "\u0633\u0646\u0627\u0631\u06CC\u0648:" }), _jsx8("div", { className: "flex gap-1 overflow-x-auto pb-0.5 flex-1", children: SCENARIOS2.map((sc) => _jsxs8("button", { onClick: () => setPreviewScenario(sc.value), className: `flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all flex-shrink-0
+                  ${previewScenario === sc.value ? "bg-indigo-100 text-indigo-700 border border-indigo-200" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`, title: sc.label, children: [_jsx8("span", { children: sc.emoji }), _jsx8("span", { className: "hidden md:inline", children: sc.label })] }, sc.value)) })] })] }), _jsx8("div", { className: "flex-1 overflow-auto bg-slate-200 p-4", children: _jsx8("div", { className: `mx-auto transition-all duration-300 ${deviceWidths[previewDevice]}`, children: _jsxs8("div", { className: "bg-white rounded-2xl shadow-xl overflow-hidden min-h-[600px]", dir: globalSettings.direction, style: {
+    fontFamily: globalSettings.fontFamily === "default" ? void 0 : globalSettings.fontFamily
+  }, children: [_jsxs8("div", { className: "bg-slate-100 border-b border-slate-200 px-4 py-2 flex items-center gap-2", children: [_jsxs8("div", { className: "flex gap-1", children: [_jsx8("div", { className: "w-3 h-3 rounded-full bg-red-400" }), _jsx8("div", { className: "w-3 h-3 rounded-full bg-yellow-400" }), _jsx8("div", { className: "w-3 h-3 rounded-full bg-green-400" })] }), _jsx8("div", { className: "flex-1 bg-white rounded-full px-3 py-0.5 text-xs text-slate-500 text-center", children: "mystore.ir/product/..." })] }), _jsxs8("div", { className: "p-4", children: [_jsx8(PreviewElements, { elements, globalSettings, selectedId: selectedElementId, scenario: previewScenario, onSelect: selectElement }), elements.filter((e) => e.visible).length === 0 && _jsxs8("div", { className: "text-center py-16 text-slate-300", children: [_jsx8("div", { className: "text-5xl mb-3", children: "\u{1F4ED}" }), _jsx8("div", { className: "text-sm", children: "\u0647\u06CC\u0686 \u0627\u0644\u0645\u0627\u0646\u06CC \u0641\u0639\u0627\u0644 \u0646\u06CC\u0633\u062A" })] })] })] }) }) })] });
+}
+
+// app/App.js
+function PanelTab({ active, onClick, icon, label, badge }) {
+  return _jsxs9("button", { onClick, className: `flex flex-col items-center gap-0.5 px-2 py-2 text-xs transition-all rounded-xl
+        ${active ? "bg-indigo-100 text-indigo-700 font-medium" : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"}`, title: label, "aria-label": label, children: [_jsxs9("span", { className: "text-base relative", children: [icon, badge && _jsx9("span", { className: "absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center text-[9px]", children: badge })] }), _jsx9("span", { className: "leading-none", children: label })] });
+}
+function App() {
+  const { elements, selectedElementId, activePanel, activeSettingsTab, isDirty, history, historyIndex, setActivePanel, setActiveSettingsTab, selectElement, undo, redo, saveToLocalStorage, loadFromLocalStorage, resetToDefault } = useStore(useShallow3((s) => ({
+    elements: s.elements,
+    selectedElementId: s.selectedElementId,
+    activePanel: s.activePanel,
+    activeSettingsTab: s.activeSettingsTab,
+    isDirty: s.isDirty,
+    history: s.history,
+    historyIndex: s.historyIndex,
+    setActivePanel: s.setActivePanel,
+    setActiveSettingsTab: s.setActiveSettingsTab,
+    selectElement: s.selectElement,
+    undo: s.undo,
+    redo: s.redo,
+    saveToLocalStorage: s.saveToLocalStorage,
+    loadFromLocalStorage: s.loadFromLocalStorage,
+    resetToDefault: s.resetToDefault
+  })));
+  const selectedElement = elements.find((e) => e.id === selectedElementId) ?? null;
+  useEffect2(() => {
+    loadFromLocalStorage();
+    startAutoSave();
+  }, []);
+  useEffect2(() => {
+    const handler = (e) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [isDirty]);
+  const handleKeyDown = useCallback((e) => {
+    const tag = e.target.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT")
+      return;
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === "z") {
+        e.preventDefault();
+        undo();
+      }
+      if (e.key === "y") {
+        e.preventDefault();
+        redo();
+      }
+      if (e.key === "s") {
+        e.preventDefault();
+        saveToLocalStorage();
+      }
+    }
+    if (e.key === "Escape")
+      selectElement(null);
+    if (e.key === "Delete" && selectedElementId) {
+      const el = elements.find((x) => x.id === selectedElementId);
+      if (el && confirm(`\u062D\u0630\u0641 "${el.label}"?`)) {
+        useStore.getState().removeElement(selectedElementId);
+      }
+    }
+    if (e.key === "ArrowUp" && selectedElementId) {
+      e.preventDefault();
+      useStore.getState().moveElement(selectedElementId, "up");
+    }
+    if (e.key === "ArrowDown" && selectedElementId) {
+      e.preventDefault();
+      useStore.getState().moveElement(selectedElementId, "down");
+    }
+  }, [undo, redo, saveToLocalStorage, selectElement, selectedElementId, elements]);
+  useEffect2(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+  useEffect2(() => {
+    if (selectedElementId && activePanel !== "settings") {
+      setActivePanel("settings");
+    }
+  }, [selectedElementId]);
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex < history.length - 1;
+  const renderLeftPanel = () => {
+    if (activePanel === "elements") {
+      return _jsxs9("div", { className: "flex flex-col h-full", children: [selectedElement && _jsxs9("div", { className: "flex-shrink-0 border-b border-slate-200", children: [_jsxs9("div", { className: "flex bg-slate-100 m-2 rounded-xl p-1", children: [_jsx9("button", { onClick: () => setActiveSettingsTab("settings"), className: `flex-1 py-1.5 rounded-lg text-xs font-medium transition-all
+                    ${activeSettingsTab === "settings" ? "bg-white shadow text-indigo-600" : "text-slate-500"}`, children: "\u2699\uFE0F \u062A\u0646\u0638\u06CC\u0645\u0627\u062A" }), _jsx9("button", { onClick: () => setActiveSettingsTab("style"), className: `flex-1 py-1.5 rounded-lg text-xs font-medium transition-all
+                    ${activeSettingsTab === "style" ? "bg-white shadow text-indigo-600" : "text-slate-500"}`, children: "\u{1F3A8} \u0627\u0633\u062A\u0627\u06CC\u0644" })] }), _jsxs9("div", { className: "px-3 pb-1 text-xs text-slate-500 flex items-center gap-1", children: [_jsx9("span", { children: selectedElement.label }), _jsx9("button", { onClick: () => selectElement(null), className: "mr-auto text-slate-400 hover:text-slate-600", "aria-label": "\u0628\u0633\u062A\u0646", children: "\u2715" })] })] }), _jsx9("div", { className: "flex-1 overflow-y-auto p-3 space-y-4", children: selectedElement && activePanel === "elements" ? activeSettingsTab === "settings" ? _jsx9(SettingsPanel, { element: selectedElement }) : _jsx9(StylePanel, { element: selectedElement }) : _jsx9(ElementsList, {}) })] });
+    }
+    if (activePanel === "settings" && selectedElement) {
+      return _jsxs9("div", { className: "flex flex-col h-full", children: [_jsxs9("div", { className: "flex-shrink-0 border-b border-slate-200", children: [_jsxs9("div", { className: "flex bg-slate-100 m-2 rounded-xl p-1", children: [_jsx9("button", { onClick: () => setActiveSettingsTab("settings"), className: `flex-1 py-1.5 rounded-lg text-xs font-medium transition-all
+                  ${activeSettingsTab === "settings" ? "bg-white shadow text-indigo-600" : "text-slate-500"}`, children: "\u2699\uFE0F \u062A\u0646\u0638\u06CC\u0645\u0627\u062A" }), _jsx9("button", { onClick: () => setActiveSettingsTab("style"), className: `flex-1 py-1.5 rounded-lg text-xs font-medium transition-all
+                  ${activeSettingsTab === "style" ? "bg-white shadow text-indigo-600" : "text-slate-500"}`, children: "\u{1F3A8} \u0627\u0633\u062A\u0627\u06CC\u0644" })] }), _jsxs9("div", { className: "px-3 pb-2 text-xs text-slate-700 font-medium flex items-center gap-1", children: [_jsx9("span", { children: selectedElement.label }), _jsx9("button", { onClick: () => selectElement(null), className: "mr-auto text-slate-400 hover:text-slate-600", "aria-label": "\u0628\u0633\u062A\u0646 \u0627\u0646\u062A\u062E\u0627\u0628", children: "\u2715" })] })] }), _jsx9("div", { className: "flex-1 overflow-y-auto p-3", children: activeSettingsTab === "settings" ? _jsx9(SettingsPanel, { element: selectedElement }) : _jsx9(StylePanel, { element: selectedElement }) })] });
+    }
+    if (activePanel === "settings") {
+      return _jsxs9("div", { className: "flex-1 overflow-y-auto p-3", children: [_jsx9("div", { className: "text-xs text-slate-500 text-center py-3 mb-3 bg-slate-50 rounded-xl", children: "\u0631\u0648\u06CC \u0627\u0644\u0645\u0627\u0646\u06CC \u062F\u0631 \u067E\u06CC\u0634\u200C\u0646\u0645\u0627\u06CC\u0634 \u06CC\u0627 \u0644\u06CC\u0633\u062A \u06A9\u0644\u06CC\u06A9 \u06A9\u0646\u06CC\u062F" }), _jsx9(ElementsList, {})] });
+    }
+    if (activePanel === "global") {
+      return _jsx9("div", { className: "flex-1 overflow-y-auto p-3", children: _jsx9(GlobalSettingsPanel, {}) });
+    }
+    if (activePanel === "presets") {
+      return _jsx9("div", { className: "flex-1 overflow-y-auto p-3", children: _jsx9(PresetsPanel, {}) });
+    }
+    if (activePanel === "help") {
+      return _jsx9("div", { className: "flex-1 overflow-y-auto p-3", children: _jsx9(HelpPanel, {}) });
+    }
+    return null;
+  };
+  const renderRightPanel = () => {
+    return _jsxs9("div", { className: "flex flex-col h-full", children: [_jsx9("div", { className: "px-3 py-2 border-b border-slate-200 text-xs font-bold text-slate-600", children: "\u2795 \u0627\u0641\u0632\u0648\u062F\u0646 \u0627\u0644\u0645\u0627\u0646" }), _jsx9("div", { className: "flex-1 overflow-y-auto p-3", children: _jsx9(AddElementPanel, {}) })] });
+  };
+  return _jsxs9("div", { className: "flex flex-col h-screen bg-slate-100 overflow-hidden", dir: "rtl", children: [_jsxs9("header", { className: "h-14 bg-white border-b border-slate-200 flex items-center px-4 gap-3 flex-shrink-0 shadow-sm z-20", children: [_jsxs9("div", { className: "flex items-center gap-2 flex-shrink-0", children: [_jsx9("div", { className: "w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow", children: "U" }), _jsxs9("div", { className: "hidden sm:block", children: [_jsx9("div", { className: "text-sm font-bold text-slate-800 leading-none", children: "Ultra PPB" }), _jsx9("div", { className: "text-xs text-slate-400", children: "Product Page Builder" })] })] }), _jsxs9("div", { className: "flex items-center gap-1.5 mr-2", children: [_jsx9("button", { onClick: undo, disabled: !canUndo, className: "flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-600 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all", title: "\u0628\u0627\u0632\u06AF\u0634\u062A (Ctrl+Z)", "aria-label": "\u0628\u0627\u0632\u06AF\u0634\u062A Undo", children: "\u21A9 \u0628\u0627\u0632\u06AF\u0634\u062A" }), _jsx9("button", { onClick: redo, disabled: !canRedo, className: "flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-600 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all", title: "\u0628\u0631\u06AF\u0634\u062A (Ctrl+Y)", "aria-label": "\u0628\u0631\u06AF\u0634\u062A Redo", children: "\u21AA \u0628\u0631\u06AF\u0634\u062A" })] }), _jsx9("div", { className: "flex-1" }), isDirty && _jsx9("span", { className: "text-xs text-orange-500 flex items-center gap-1 flex-shrink-0", children: "\u25CF \u0630\u062E\u06CC\u0631\u0647\u200C\u0646\u0634\u062F\u0647" }), _jsx9("button", { onClick: () => {
+    if (confirm("\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06CC \u06A9\u0627\u0645\u0644 \u0628\u0647 \u062D\u0627\u0644\u062A \u067E\u06CC\u0634\u200C\u0641\u0631\u0636\u061F"))
+      resetToDefault();
+  }, className: "px-3 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-600 hover:bg-red-50 hover:border-red-200 hover:text-red-600 transition-all flex-shrink-0", "aria-label": "\u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06CC", children: "\u{1F504} \u0628\u0627\u0632\u0646\u0634\u0627\u0646\u06CC" }), _jsx9("button", { onClick: saveToLocalStorage, className: "px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium transition-colors flex-shrink-0", "aria-label": "\u0630\u062E\u06CC\u0631\u0647", children: "\u{1F4BE} \u0630\u062E\u06CC\u0631\u0647" })] }), _jsxs9("div", { className: "flex flex-1 overflow-hidden", children: [_jsxs9("aside", { className: "w-72 bg-white border-l border-slate-200 flex flex-col flex-shrink-0 overflow-hidden z-10", children: [_jsxs9("div", { className: "flex gap-1 p-2 border-b border-slate-200 flex-wrap justify-center", children: [_jsx9(PanelTab, { active: activePanel === "elements", onClick: () => setActivePanel("elements"), icon: "\u{1F4CB}", label: "\u0627\u0644\u0645\u0627\u0646\u200C\u0647\u0627" }), _jsx9(PanelTab, { active: activePanel === "settings", onClick: () => setActivePanel("settings"), icon: "\u2699\uFE0F", label: "\u062A\u0646\u0638\u06CC\u0645\u0627\u062A", badge: selectedElement ? "!" : void 0 }), _jsx9(PanelTab, { active: activePanel === "global", onClick: () => setActivePanel("global"), icon: "\u{1F310}", label: "\u0633\u0631\u0627\u0633\u0631\u06CC" }), _jsx9(PanelTab, { active: activePanel === "presets", onClick: () => setActivePanel("presets"), icon: "\u{1F4D0}", label: "\u0642\u0627\u0644\u0628\u200C\u0647\u0627" }), _jsx9(PanelTab, { active: activePanel === "help", onClick: () => setActivePanel("help"), icon: "\u2753", label: "\u0631\u0627\u0647\u0646\u0645\u0627" })] }), _jsx9("div", { className: "flex-1 flex flex-col overflow-hidden", children: renderLeftPanel() }), _jsxs9("div", { className: "px-3 py-2 border-t border-slate-200 bg-slate-50 flex items-center justify-between", children: [_jsxs9("span", { className: "text-xs text-slate-400", children: [elements.length, " \u0627\u0644\u0645\u0627\u0646"] }), _jsx9("span", { className: "text-xs text-slate-400", children: "v2.0" })] })] }), _jsx9("main", { className: "flex-1 overflow-hidden", children: _jsx9(PreviewPanel, {}) }), _jsx9("aside", { className: "w-64 bg-white border-r border-slate-200 flex-shrink-0 overflow-hidden z-10", children: renderRightPanel() })] })] });
+}
+
+// app/main.js
+createRoot(document.getElementById("uppb-root")).render(_jsx10(StrictMode, { children: _jsx10(App, {}) }));
+</script>
+  </div>
+</body>
+</html>
